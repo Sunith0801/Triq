@@ -413,7 +413,19 @@ function getNum(row, ...keys) {
 // Based on your ACTUAL column names from the screenshot:
 // "Order Date", "Shipped Date", "Product name",
 // "Amout to be paid", "Balance amount to receive"
-function getDate(row)     { return getCol(row,'Order Date','Order Created','Created date','date','day'); }
+function getDate(row) {
+  const raw = getCol(row,'Order Date','Order Created','Created date','date','day','Order Created date');
+  if (!raw) return '';
+  // Handle formats: "2026-04-23 18:00:00", "2026-04-23T18:00:00", "2026-04-23", "23/04/2026"
+  const s = String(raw).trim();
+  // ISO format with space or T
+  const isoMatch = s.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (isoMatch) return isoMatch[1];
+  // DD/MM/YYYY
+  const dmyMatch = s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  if (dmyMatch) return dmyMatch[3]+'-'+dmyMatch[2]+'-'+dmyMatch[1];
+  return s.slice(0,10);
+}
 function getSale(row)     { return getNum(row,'Amout to be paid','amount to be paid','sale','amount','price','revenue','total','value','lineitem price'); }
 function getBalance(row)  { return getNum(row,'Balance amount to receive','balance amount','outstanding','balance','pending','due'); }
 function getPaid(row)     { return getSale(row) - getBalance(row); }
@@ -470,7 +482,9 @@ function renderDash() {
   // ── Daily aggregates ─────────────────────────────────────
   const daily = {};
   data.forEach(r=>{
-    const d = getDate(r).slice(0,10); if(!d||d.length<8) return;
+    const raw = getDate(r);
+    const d = raw ? raw.slice(0,10) : '';
+    if(!d || d.length < 8 || !d.match(/^\d{4}-\d{2}-\d{2}$/)) return;
     if(!daily[d]) daily[d]={rev:0,bal:0,calls:0,recv:0,orders:0};
     daily[d].rev    += getSale(r);
     daily[d].bal    += getBalance(r);
@@ -608,8 +622,45 @@ function renderDash() {
 
   // ── DRAW CHARTS ──────────────────────────────────────────
 
-  // 1 — Daily Revenue bars (green if met target, orange if not)
-  dc('d'); charts['d']=new Chart(document.getElementById('dailyC'),{type:'bar',data:{labels:dlbls,datasets:[{label:'Revenue',data:drevs,backgroundColor:drevs.map(v=>v>=dt?ha(GR,.8):ha(OG,.75)),borderRadius:5,borderSkipped:false}]},options:{...bOpt(false),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`₹${c.raw.toLocaleString('en-IN')}`}}}}});
+  // 1 — Daily Revenue - smart chart (line if many days, bar if few)
+  dc('d');
+  const useBar = dk.length <= 14;
+  const dailyChartData = {
+    labels: dlbls,
+    datasets: useBar ? [{
+      label:'Revenue',
+      data:drevs,
+      backgroundColor:drevs.map(v=>v>=dt?ha(GR,.75):ha(OG,.7)),
+      borderColor:drevs.map(v=>v>=dt?GR:OG),
+      borderWidth:1,
+      borderRadius:6,
+      borderSkipped:false
+    }] : [{
+      label:'Revenue',
+      data:drevs,
+      borderColor:OG,
+      backgroundColor:ha(OG,.12),
+      tension:.4,
+      fill:true,
+      pointRadius:4,
+      pointBackgroundColor:drevs.map(v=>v>=dt?GR:OG),
+      pointBorderColor:'#090E18',
+      pointBorderWidth:2,
+      borderWidth:2.5
+    }]
+  };
+  charts['d']=new Chart(document.getElementById('dailyC'),{
+    type: useBar ? 'bar' : 'line',
+    data: dailyChartData,
+    options:{...bOpt(false),
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{
+          title: t => t[0].label,
+          label: c => '₹'+c.raw.toLocaleString('en-IN') + (c.raw>=dt?' ✓ Target met':'')
+        }}
+      }
+    }
+  });
 
   // 2 — Cumulative
   dc('c'); charts['c']=new Chart(document.getElementById('cumulC'),{type:'line',data:{labels:dlbls,datasets:[{label:'Cumulative',data:cumul,borderColor:GR,backgroundColor:ha(GR,.09),tension:.44,fill:true,pointRadius:3,pointBackgroundColor:GR,pointBorderColor:dbg,pointBorderWidth:2,borderWidth:2.5}]},options:{...bOpt(false),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`₹${c.raw.toLocaleString('en-IN')}`}}}}});
