@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>TriQ Pharma — Add Entry</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--o:#E8791A;--om:#F5A050;--g:#006428;--gm:#22c55e;--d:#090E18;--d2:#0E1624;--d3:#131D2E;--d4:#192538;--tx:#E6EDF8;--txd:#7A8FA8;--bo:rgba(255,255,255,.08);--og:rgba(232,121,26,.22);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--d);color:var(--tx);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,121,26,.07) 0%,transparent 60%);}
+.card{width:100%;max-width:560px;background:var(--d2);border:1px solid rgba(232,121,26,.25);border-radius:20px;padding:28px;box-shadow:0 0 60px var(--og);position:relative;z-index:1;}
+.card-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--bo);}
+.hlogo{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--o);box-shadow:0 0 16px var(--og);}
+.htxt h1{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff;}
+.htxt p{font-size:11px;color:var(--txd);margin-top:2px;}
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:3px 10px;font-size:9px;font-weight:700;color:#22c55e;letter-spacing:.5px;margin-top:4px;}
+.live-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:#22c55e;animation:blink 1.4s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--o);margin:20px 0 12px;display:flex;align-items:center;gap:8px;}
+.section-title::after{content:'';flex:1;height:1px;background:rgba(232,121,26,.2);}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-row.one{grid-template-columns:1fr;}
+.form-row.three{grid-template-columns:1fr 1fr 1fr;}
+.field label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);display:block;margin-bottom:5px;}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--d3);border:1px solid var(--bo);color:var(--tx);
+  padding:11px 13px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;
+  transition:border-color .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--o);background:var(--d4);}
+.field textarea{resize:vertical;min-height:70px;}
+.field select option{background:var(--d3);}
+
+.config-section{background:var(--d3);border:1px solid var(--bo);border-radius:12px;padding:16px;margin-bottom:18px;}
+.config-section label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);display:block;margin-bottom:5px;}
+.config-section input{width:100%;background:var(--d4);border:1px solid var(--bo);color:var(--tx);padding:10px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;margin-bottom:10px;}
+.config-section input:last-child{margin-bottom:0;}
+.config-section input:focus{outline:none;border-color:var(--o);}
+.config-hint{font-size:10px;color:var(--txd);margin-top:4px;line-height:1.5;}
+.config-hint b{color:var(--o);}
+
+.submit-btn{
+  width:100%;background:linear-gradient(135deg,var(--o),var(--om));color:#fff;border:none;
+  padding:15px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;
+  cursor:pointer;transition:all .2s;box-shadow:0 6px 20px var(--og);margin-top:6px;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px var(--og);}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+.back-link{display:block;text-align:center;margin-top:16px;font-size:12px;color:var(--txd);text-decoration:none;transition:color .15s;}
+.back-link:hover{color:var(--o);}
+
+.success-msg{display:none;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:12px;padding:16px;text-align:center;margin-top:14px;}
+.success-msg.show{display:block;}
+.success-msg p{color:#22c55e;font-weight:700;font-size:14px;margin-bottom:4px;}
+.success-msg small{color:var(--txd);font-size:11px;}
+
+.error-msg{display:none;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:12px;padding:14px;text-align:center;margin-top:12px;}
+.error-msg.show{display:block;}
+.error-msg p{color:#f87171;font-weight:600;font-size:13px;}
+.error-msg small{color:var(--txd);font-size:11px;display:block;margin-top:4px;}
+
+.today-badge{background:var(--olt,rgba(232,121,26,.12));border:1px solid rgba(232,121,26,.2);border-radius:8px;padding:6px 12px;font-size:11px;color:var(--o);font-weight:600;display:inline-block;margin-bottom:14px;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-header">
+    <img class="hlogo" src="data:image/jpeg;base64,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" alt="TriQ Pharma"/>
+    <div class="htxt">
+      <h1>TriQ Pharma Entry</h1>
+      <p>Add today's sales & call data</p>
+      <div class="live-badge">LIVE ENTRY</div>
+    </div>
+  </div>
+
+  <!-- SHEET CONFIG -->
+  <div class="config-section" id="configSection">
+    <label>📋 Google Apps Script URL (one-time setup)</label>
+    <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"/>
+    <div class="config-hint">Paste your Google Apps Script Web App URL here. Get this from the setup guide. <b>Saved in your browser automatically.</b></div>
+  </div>
+
+  <div class="today-badge">📅 Today: <span id="todayDisp"></span></div>
+
+  <!-- SALES SECTION -->
+  <div class="section-title">💰 Sales Details</div>
+  <div class="form-row">
+    <div class="field"><label>Order ID / Name</label><input type="text" id="orderId" placeholder="e.g. #1031"/></div>
+    <div class="field"><label>Order Date</label><input type="date" id="orderDate"/></div>
+  </div>
+  <div class="form-row">
+    <div class="field"><label>Product Name</label>
+      <select id="productName">
+        <option value="">Select product...</option>
+        <option>GlutaDelight - 6 Tubes</option>
+        <option>GlutaDelight - 2 Tubes</option>
+        <option>Grand Restore - 30 sachets</option>
+        <option>FemiDelight - 3 Bottle</option>
+        <option>FemiDelight - 1 Bottle</option>
+        <option>GrandWalk - 30 Sachets</option>
+        <option>DiaGrand - 3 Tins</option>
+        <option value="other">Other (type below)</option>
+      </select>
+    </div>
+    <div class="field"><label>Custom Product (if Other)</label><input type="text" id="productCustom" placeholder="Type product name..."/></div>
+  </div>
+  <div class="form-row three">
+    <div class="field"><label>Sale Amount (₹)</label><input type="number" id="saleAmount" placeholder="0"/></div>
+    <div class="field"><label>Amount Paid (₹)</label><input type="number" id="amtPaid" placeholder="0"/></div>
+    <div class="field"><label>Outstanding (₹)</label><input type="number" id="outstanding" placeholder="0" readonly style="opacity:.7"/></div>
+  </div>
+  <div class="form-row">
+    <div class="field"><label>Payment Status</label>
+      <select id="payStatus">
+        <option value="paid">✅ Paid</option>
+        <option value="partially_paid">⚡ Partially Paid</option>
+        <option value="pending">⏳ Pending</option>
+        <option value="voided">❌ Voided</option>
+      </select>
+    </div>
+    <div class="field"><label>Payment Method</label>
+      <select id="payMethod">
+        <option>Razorpay</option>
+        <option>Cash on Delivery (COD)</option>
+        <option>Razorpay + COD</option>
+        <option>UPI</option>
+        <option>Bank Transfer</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="field"><label>Fulfillment Status</label>
+      <select id="fulfillStatus">
+        <option value="fulfilled">✅ Fulfilled</option>
+        <option value="unfulfilled">📦 Unfulfilled</option>
+        <option value="shipped">🚚 Shipped</option>
+      </select>
+    </div>
+    <div class="field"><label>Shipped Date</label><input type="date" id="shippedDate"/></div>
+  </div>
+
+  <!-- CALLS SECTION -->
+  <div class="section-title">📞 Call Report</div>
+  <div class="form-row three">
+    <div class="field"><label>Calls Made</label><input type="number" id="callsMade" placeholder="0" min="0"/></div>
+    <div class="field"><label>Calls Received</label><input type="number" id="callsRecv" placeholder="0" min="0"/></div>
+    <div class="field"><label>Calls Connected</label><input type="number" id="callsConn" placeholder="0" min="0"/></div>
+  </div>
+
+  <!-- NOTES SECTION -->
+  <div class="section-title">📝 Notes</div>
+  <div class="form-row one">
+    <div class="field"><label>Remarks / Notes (optional)</label><textarea id="notes" placeholder="Any additional notes about this order or day..."></textarea></div>
+  </div>
+
+  <button class="submit-btn" id="submitBtn" onclick="submitEntry()">
+    ➕ Submit Entry to Dashboard
+  </button>
+
+  <div class="success-msg" id="successMsg">
+    <p>✅ Entry submitted successfully!</p>
+    <small>Your dashboard will update within seconds. <a href="index.html" style="color:#22c55e">View Dashboard →</a></small>
+  </div>
+  <div class="error-msg" id="errorMsg">
+    <p>❌ Submission failed</p>
+    <small id="errorDetail">Check your Script URL in the config section above and try again.</small>
+  </div>
+
+  <a href="index.html" class="back-link">← Back to Dashboard</a>
+</div>
+
+<script>
+const CFG = 'triq_entry_cfg';
+let cfg = JSON.parse(localStorage.getItem(CFG)||'{}');
+
+window.addEventListener('DOMContentLoaded',() => {
+  // Set today
+  const td = new Date();
+  document.getElementById('todayDisp').textContent = td.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('orderDate').value = td.toISOString().slice(0,10);
+  document.getElementById('shippedDate').value = td.toISOString().slice(0,10);
+  if (cfg.scriptUrl) document.getElementById('scriptUrl').value = cfg.scriptUrl;
+
+  // Auto-calculate outstanding
+  ['saleAmount','amtPaid'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calcOutstanding);
+  });
+  document.getElementById('amtPaid').addEventListener('input', autoStatus);
+});
+
+function calcOutstanding() {
+  const sale = parseFloat(document.getElementById('saleAmount').value)||0;
+  const paid = parseFloat(document.getElementById('amtPaid').value)||0;
+  document.getElementById('outstanding').value = Math.max(sale-paid,0);
+}
+function autoStatus() {
+  const sale = parseFloat(document.getElementById('saleAmount').value)||0;
+  const paid = parseFloat(document.getElementById('amtPaid').value)||0;
+  const sel = document.getElementById('payStatus');
+  if (paid===0) sel.value='pending';
+  else if (paid>=sale) sel.value='paid';
+  else sel.value='partially_paid';
+}
+
+async function submitEntry() {
+  const url = document.getElementById('scriptUrl').value.trim();
+  if (!url) { showError('Please paste your Google Apps Script URL in the config section above.'); return; }
+
+  // Save script URL
+  cfg.scriptUrl = url;
+  localStorage.setItem(CFG, JSON.stringify(cfg));
+
+  const product = document.getElementById('productName').value==='other'
+    ? document.getElementById('productCustom').value
+    : document.getElementById('productName').value;
+
+  const payload = {
+    action: 'addEntry',
+    Name:               document.getElementById('orderId').value || 'LIVE-'+Date.now(),
+    'Order Created date': document.getElementById('orderDate').value,
+    'Lineitem name':    product,
+    'Lineitem price':   document.getElementById('saleAmount').value,
+    'Paid Amount':      document.getElementById('amtPaid').value,
+    'Outstanding Balance': document.getElementById('outstanding').value,
+    'Financial Status': document.getElementById('payStatus').value,
+    'Payment Method':   document.getElementById('payMethod').value,
+    'Fulfillment Status': document.getElementById('fulfillStatus').value,
+    'Order Shipped date': document.getElementById('shippedDate').value,
+    'Calls Made':       document.getElementById('callsMade').value || '0',
+    'Calls Received':   document.getElementById('callsRecv').value || '0',
+    'Calls Connected':  document.getElementById('callsConn').value || '0',
+    Notes:              document.getElementById('notes').value,
+    Timestamp:          new Date().toISOString(),
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Submitting...';
+
+  try {
+    const res = await fetch(url, {method:'POST', body:JSON.stringify(payload)});
+    const txt = await res.text();
+    if (txt.includes('success') || res.ok) {
+      document.getElementById('successMsg').classList.add('show');
+      document.getElementById('errorMsg').classList.remove('show');
+      btn.textContent = '✅ Submitted!';
+      // Reset form
+      setTimeout(() => {
+        document.getElementById('orderId').value='';
+        document.getElementById('saleAmount').value='';
+        document.getElementById('amtPaid').value='';
+        document.getElementById('outstanding').value='';
+        document.getElementById('callsMade').value='';
+        document.getElementById('callsRecv').value='';
+        document.getElementById('callsConn').value='';
+        document.getElementById('notes').value='';
+        btn.disabled=false;
+        btn.innerHTML='➕ Submit Another Entry';
+      }, 2000);
+    } else { throw new Error(txt); }
+  } catch(e) {
+    showError(e.message || 'Unknown error. Check your script URL.');
+    btn.disabled=false;
+    btn.innerHTML='➕ Submit Entry to Dashboard';
+  }
+}
+
+function showError(msg) {
+  document.getElementById('errorDetail').textContent = msg;
+  document.getElementById('errorMsg').classList.add('show');
+  document.getElementById('successMsg').classList.remove('show');
+}
+</script>
+</body>
+</html>
