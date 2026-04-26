@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>TriQ Pharma — Live Dashboard</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --o:#E8791A;--om:#F5A050;--olt:rgba(232,121,26,.13);
-  --g:#006428;--gm:#22c55e;--glt:rgba(34,197,94,.12);
-  --d:#090E18;--d2:#0E1624;--d3:#131D2E;--d4:#192538;--d5:#1E2D42;
-  --tx:#E6EDF8;--txd:#7A8FA8;--bo:rgba(255,255,255,.07);
-  --wh:#fff;--og:rgba(232,121,26,.22);
-  --red:#ef4444;--amber:#f59e0b;--blue:#3b82f6;--teal:#14b8a6;
+  --g:#006428;--gm:#22c55e;
+  --d:#090E18;--d2:#0E1624;--d3:#131D2E;--d4:#192538;
+  --tx:#E6EDF8;--txd:#7A8FA8;--bo:rgba(255,255,255,.07);--wh:#fff;
+  --og:rgba(232,121,26,.22);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -27,8 +25,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 /* SIDEBAR */
 .sb{position:fixed;left:0;top:0;bottom:0;width:228px;background:var(--d2);border-right:1px solid var(--bo);display:flex;flex-direction:column;z-index:200;}
 .sb-top{padding:20px 16px 16px;border-bottom:1px solid var(--bo);text-align:center;}
-.sb-logo{width:74px;height:74px;border-radius:50%;object-fit:cover;border:2.5px solid var(--o);box-shadow:0 0 20px var(--og);display:block;margin:0 auto 10px;animation:logopulse 3.5s ease-in-out infinite;}
-@keyframes logopulse{0%,100%{box-shadow:0 0 20px var(--og)}50%{box-shadow:0 0 36px var(--og),0 0 60px rgba(232,121,26,.1)}}
+.sb-logo{width:74px;height:74px;border-radius:50%;object-fit:cover;border:2.5px solid var(--o);box-shadow:0 0 20px var(--og);display:block;margin:0 auto 10px;animation:lp 3.5s ease-in-out infinite;}
+@keyframes lp{0%,100%{box-shadow:0 0 20px var(--og)}50%{box-shadow:0 0 36px var(--og),0 0 60px rgba(232,121,26,.1)}}
 .sb-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--wh);}
 .sb-tag{font-size:9px;color:var(--o);font-weight:600;letter-spacing:2.5px;text-transform:uppercase;margin-top:2px;}
 .sb-live{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:3px 10px;font-size:9px;font-weight:700;color:#22c55e;margin-top:6px;}
@@ -66,8 +64,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .modal-bg.show{opacity:1;pointer-events:all;}
 .modal{background:var(--d2);border:1px solid rgba(232,121,26,.3);border-radius:18px;padding:28px;width:540px;max-width:95vw;box-shadow:0 0 60px var(--og);}
 .modal h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:4px;color:var(--wh);}
-.modal-sub{font-size:12px;color:var(--txd);margin-bottom:18px;line-height:1.6;}
-.modal-hint{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:11px;color:#93c5fd;line-height:1.7;}
+.modal-sub{font-size:12px;color:var(--txd);margin-bottom:16px;line-height:1.6;}
+.modal-hint{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:11px;color:#93c5fd;line-height:1.7;}
 .modal-hint b{color:#60a5fa;}
 .fg{margin-bottom:13px;}
 .fg label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);display:block;margin-bottom:5px;}
@@ -86,100 +84,125 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .sec-hd::after{content:'';flex:1;height:1px;background:var(--bo);}
 
 /* TARGET BANNER */
-.tgt-banner{background:linear-gradient(135deg,rgba(232,121,26,.15),rgba(232,121,26,.04));border:1px solid rgba(232,121,26,.25);border-radius:16px;padding:20px 24px;margin-bottom:16px;position:relative;overflow:hidden;}
+.tgt-banner{background:linear-gradient(135deg,rgba(232,121,26,.15),rgba(232,121,26,.04));border:1px solid rgba(232,121,26,.25);border-radius:16px;padding:22px 26px;margin-bottom:18px;position:relative;overflow:hidden;}
 .tgt-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:var(--o);opacity:.06;filter:blur(30px);}
-.tgt-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:20px;align-items:center;}
+.tgt-grid{display:grid;grid-template-columns:1fr 1fr 1.6fr auto;gap:24px;align-items:center;}
 .tgt-m-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);margin-bottom:6px;}
-.tgt-m-val{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--o);line-height:1;}
-.tgt-m-sub{font-size:10px;color:var(--txd);margin-top:3px;}
-.tp-row{margin-bottom:10px;}
-.tp-labels{display:flex;justify-content:space-between;margin-bottom:5px;}
-.tp-lbl{font-size:10px;font-weight:600;color:var(--tx);}
-.tp-pct{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
-.tp-track{background:rgba(255,255,255,.07);border-radius:8px;height:12px;overflow:hidden;}
+.tgt-m-val{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--o);line-height:1;}
+.tgt-m-sub{font-size:10px;color:var(--txd);margin-top:4px;}
+.tp-row{margin-bottom:12px;}
+.tp-row:last-child{margin-bottom:0;}
+.tp-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.tp-lbl{font-size:11px;font-weight:600;color:var(--tx);}
+.tp-pct{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;}
+.tp-track{background:rgba(255,255,255,.07);border-radius:8px;height:13px;overflow:hidden;}
 .tp-fill{height:100%;border-radius:8px;position:relative;overflow:hidden;transition:width 1.3s cubic-bezier(.4,0,.2,1);}
-.tp-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);animation:shim 2.5s infinite;}
+.tp-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:shim 2.5s infinite;}
 @keyframes shim{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 .tp-sub{display:flex;justify-content:space-between;margin-top:4px;font-size:9px;color:var(--txd);}
-.set-tgt-btn{background:var(--o);color:#fff;border:none;padding:9px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.set-tgt-btn{background:var(--o);color:#fff;border:none;padding:10px 18px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;display:block;margin-bottom:8px;}
 .set-tgt-btn:hover{background:var(--om);}
 
-/* KPI ROW */
-.krow{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px;}
-.kc{border-radius:13px;padding:16px 15px 14px;position:relative;overflow:hidden;transition:transform .2s;cursor:default;}
-.kc:hover{transform:translateY(-3px);}
+/* KPI GRID — 3 rows of 3 */
+.kpi-section{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+.kc{border-radius:14px;padding:20px 20px 18px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:default;}
+.kc:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3);}
 .kc.ko{background:linear-gradient(135deg,rgba(232,121,26,.17),rgba(232,121,26,.05));border:1px solid rgba(232,121,26,.26);}
 .kc.kg{background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.04));border:1px solid rgba(34,197,94,.24);}
 .kc.kb{background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(59,130,246,.04));border:1px solid rgba(59,130,246,.22);}
 .kc.ka{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(245,158,11,.04));border:1px solid rgba(245,158,11,.22);}
 .kc.kt{background:linear-gradient(135deg,rgba(20,184,166,.15),rgba(20,184,166,.04));border:1px solid rgba(20,184,166,.22);}
 .kc.kr{background:linear-gradient(135deg,rgba(239,68,68,.14),rgba(239,68,68,.04));border:1px solid rgba(239,68,68,.2);}
-.kblb{position:absolute;top:-16px;right:-16px;width:72px;height:72px;border-radius:50%;opacity:.13;filter:blur(14px);}
-.ko .kblb{background:#E8791A}.kg .kblb{background:#22c55e}.kb .kblb{background:#3b82f6}.ka .kblb{background:#f59e0b}.kt .kblb{background:#14b8a6}.kr .kblb{background:#ef4444}
+.kblb{position:absolute;top:-18px;right:-18px;width:80px;height:80px;border-radius:50%;opacity:.13;filter:blur(15px);}
+.ko .kblb{background:#E8791A}.kg .kblb{background:#22c55e}.kb .kblb{background:#3b82f6}
+.ka .kblb{background:#f59e0b}.kt .kblb{background:#14b8a6}.kr .kblb{background:#ef4444}
 .kc::before{content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transition:left .5s;}
 .kc:hover::before{left:160%;}
-.k-ic{font-size:22px;margin-bottom:8px;display:block;}
-.k-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;color:var(--txd);margin-bottom:5px;}
-.k-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;line-height:1;margin-bottom:3px;}
-.ko .k-val{color:#E8791A}.kg .k-val{color:#22c55e}.kb .k-val{color:#60a5fa}.ka .k-val{color:#fcd34d}.kt .k-val{color:#2dd4bf}.kr .k-val{color:#f87171}
-.k-sub{font-size:9px;color:var(--txd);}
-.k-trnd{position:absolute;bottom:10px;right:10px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;}
+.k-ic{font-size:30px;margin-bottom:10px;display:block;}
+.k-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--txd);margin-bottom:7px;}
+.k-val{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;line-height:1;margin-bottom:5px;}
+.ko .k-val{color:#E8791A}.kg .k-val{color:#22c55e}.kb .k-val{color:#60a5fa}
+.ka .k-val{color:#fcd34d}.kt .k-val{color:#2dd4bf}.kr .k-val{color:#f87171}
+.k-sub{font-size:11px;color:var(--txd);line-height:1.4;}
+.k-trnd{position:absolute;bottom:14px;right:14px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;}
 .tup{background:rgba(34,197,94,.13);color:#22c55e}.tdn{background:rgba(239,68,68,.12);color:#f87171}
 
-/* CHART GRID */
-.cgrid{display:grid;gap:14px;margin-bottom:14px;}
-.cg2{grid-template-columns:3fr 2fr;}
-.cg3{grid-template-columns:1fr 1fr 1fr;}
-.cgeq{grid-template-columns:1fr 1fr;}
-.cgfu{grid-template-columns:1fr;}
-.cc{background:var(--d2);border:1px solid var(--bo);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:transform .2s;}
-.cc:hover{transform:translateY(-2px);}
-.cc::before{content:'';position:absolute;width:120px;height:120px;border-radius:50%;top:-40px;right:-40px;opacity:.07;filter:blur(20px);background:var(--o);pointer-events:none;}
-.cc:nth-child(2)::before{background:#22c55e}.cc:nth-child(3)::before{background:#3b82f6}
-.cc-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
-.cc-ti{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.1px;color:var(--txd);}
-.cc-su{font-size:9px;color:rgba(232,121,26,.45);margin-top:2px;}
-.cc-bg{padding:3px 9px;border-radius:11px;font-size:10px;font-weight:600;background:var(--olt);color:var(--o);border:1px solid rgba(232,121,26,.2);white-space:nowrap;}
-.cc-bg.g{background:var(--glt);color:#22c55e;border-color:rgba(34,197,94,.25);}
-.cc-bg.r{background:rgba(239,68,68,.1);color:#f87171;border-color:rgba(239,68,68,.2);}
-.cc-bg.b{background:rgba(59,130,246,.1);color:#60a5fa;border-color:rgba(59,130,246,.2);}
+/* DAILY BREAKDOWN TABLE */
+.day-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.day-card{background:var(--d2);border:1px solid var(--bo);border-radius:14px;overflow:hidden;}
+.day-card-hd{padding:14px 18px;border-bottom:1px solid var(--bo);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(232,121,26,.06),transparent);}
+.day-card-hd h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--o);}
+.day-sc{max-height:320px;overflow-y:auto;}
 
-/* DAILY TARGET BARS */
-.dtp-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+/* DAILY TARGET PROGRESS */
+.dtp-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s;}
+.dtp-row:hover{background:var(--d3);}
 .dtp-row:last-child{border-bottom:none;}
-.dtp-date{font-size:11px;font-weight:600;min-width:72px;color:var(--tx);}
-.dtp-track{flex:1;background:rgba(255,255,255,.05);border-radius:5px;height:9px;overflow:hidden;}
-.dtp-fill{height:100%;border-radius:5px;overflow:hidden;position:relative;transition:width 1s cubic-bezier(.4,0,.2,1);}
-.dtp-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shim 2.5s infinite;}
-.dtp-pct{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;min-width:38px;text-align:right;}
-.dtp-amt{font-size:9px;color:var(--txd);min-width:80px;text-align:right;}
+.dtp-date{font-size:11px;font-weight:600;min-width:68px;color:var(--tx);}
+.dtp-track{flex:1;background:rgba(255,255,255,.06);border-radius:5px;height:8px;overflow:hidden;}
+.dtp-fill{height:100%;border-radius:5px;position:relative;overflow:hidden;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.dtp-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:shim 2.5s infinite;}
+.dtp-pct{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;min-width:40px;text-align:right;}
+.dtp-amt{font-size:10px;color:var(--txd);min-width:86px;text-align:right;font-family:'JetBrains Mono',monospace;}
 
-/* TABLE */
-.tbl-wrap{background:var(--d2);border:1px solid var(--bo);border-radius:13px;overflow:hidden;margin-bottom:14px;}
-.tbl-top{padding:13px 18px;border-bottom:1px solid var(--bo);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(232,121,26,.05),transparent);}
+/* PRODUCT SUMMARY */
+.prod-row{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s;}
+.prod-row:hover{background:var(--d3);}
+.prod-row:last-child{border-bottom:none;}
+.prod-rank{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--o);min-width:20px;}
+.prod-name{flex:1;font-size:12px;font-weight:600;color:var(--tx);}
+.prod-bar-wrap{width:80px;background:rgba(255,255,255,.06);border-radius:4px;height:6px;overflow:hidden;}
+.prod-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--o),var(--om));}
+.prod-rev{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#E8791A;min-width:72px;text-align:right;}
+.prod-cnt{font-size:10px;color:var(--txd);min-width:40px;text-align:right;}
+
+/* PAYMENT STATUS CARDS */
+.pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.pay-card{background:var(--d2);border:1px solid var(--bo);border-radius:12px;padding:16px 18px;text-align:center;transition:transform .2s;}
+.pay-card:hover{transform:translateY(-2px);}
+.pay-ic{font-size:24px;margin-bottom:8px;}
+.pay-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);margin-bottom:6px;}
+.pay-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;}
+.pay-sub{font-size:10px;color:var(--txd);margin-top:4px;}
+
+/* ORDER TABLE */
+.tbl-wrap{background:var(--d2);border:1px solid var(--bo);border-radius:14px;overflow:hidden;margin-bottom:16px;}
+.tbl-top{padding:14px 18px;border-bottom:1px solid var(--bo);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(232,121,26,.05),transparent);}
 .tbl-top h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--o);}
-.tsc{overflow-x:auto;max-height:280px;overflow-y:auto;}
+.tbl-filters{display:flex;gap:6px;}
+.tf{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid var(--bo);background:var(--d3);color:var(--txd);transition:all .15s;font-family:'DM Sans',sans-serif;}
+.tf.on,.tf:hover{background:var(--olt);color:var(--o);border-color:rgba(232,121,26,.3);}
+.tsc{overflow-x:auto;max-height:340px;overflow-y:auto;}
 table{width:100%;border-collapse:collapse;font-size:11px;}
-thead th{background:var(--d3);padding:9px 13px;text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);position:sticky;top:0;white-space:nowrap;border-bottom:1px solid var(--bo);}
+thead th{background:var(--d3);padding:10px 14px;text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);position:sticky;top:0;white-space:nowrap;border-bottom:1px solid var(--bo);}
 tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s;}
 tbody tr:hover{background:var(--d3);}
 tbody tr:nth-child(even){background:rgba(232,121,26,.02);}
-tbody td{padding:8px 13px;white-space:nowrap;color:var(--tx);}
+tbody td{padding:9px 14px;white-space:nowrap;color:var(--tx);}
 .badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:700;text-transform:uppercase;}
 .b-p{background:rgba(34,197,94,.12);color:#22c55e}
 .b-pp{background:rgba(245,158,11,.12);color:#fcd34d}
 .b-pn{background:rgba(239,68,68,.11);color:#f87171}
 .b-v{background:rgba(148,163,184,.1);color:#94a3b8}
+.b-f{background:rgba(34,197,94,.12);color:#22c55e}
+.b-u{background:rgba(239,68,68,.11);color:#f87171}
 
-/* LOADING / ERROR */
+/* CALL SUMMARY TABLE */
+.call-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.call-card{background:var(--d2);border:1px solid var(--bo);border-radius:12px;padding:16px 18px;text-align:center;}
+.call-ic{font-size:26px;margin-bottom:8px;}
+.call-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txd);margin-bottom:6px;}
+.call-val{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:#60a5fa;}
+.call-sub{font-size:10px;color:var(--txd);margin-top:3px;}
+
+/* LOADING */
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px;color:var(--txd);}
 .spinner{width:44px;height:44px;border:3px solid rgba(232,121,26,.2);border-top-color:var(--o);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:16px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .nodata{text-align:center;padding:60px;color:var(--txd);}
-.nodata-ic{font-size:36px;margin-bottom:12px;opacity:.4;}
 .nodata h3{font-size:15px;font-weight:700;color:#E8791A;margin-bottom:8px;}
 .nodata p{font-size:12px;line-height:1.7;margin-bottom:6px;}
-.nodata .fix-btn{display:inline-block;margin-top:14px;background:var(--o);color:#fff;border:none;padding:11px 26px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 14px var(--og);}
+.fix-btn{background:var(--o);color:#fff;border:none;padding:11px 26px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:12px;display:inline-block;}
 
 .ft{padding:12px 24px;border-top:1px solid var(--bo);display:flex;align-items:center;justify-content:space-between;background:var(--d2);}
 .ft-l{display:flex;align-items:center;gap:8px;}
@@ -191,34 +214,34 @@ tbody td{padding:8px 13px;white-space:nowrap;color:var(--tx);}
 ::-webkit-scrollbar-track{background:var(--d3);}
 ::-webkit-scrollbar-thumb{background:rgba(232,121,26,.4);border-radius:2px;}
 @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.kc{animation:fu .4s ease both;}
-.kc:nth-child(1){animation-delay:.03s}.kc:nth-child(2){animation-delay:.06s}.kc:nth-child(3){animation-delay:.09s}.kc:nth-child(4){animation-delay:.12s}.kc:nth-child(5){animation-delay:.15s}.kc:nth-child(6){animation-delay:.18s}
-.cc,.tgt-banner{animation:fu .4s ease both;animation-delay:.2s;}
-@media(max-width:1200px){.krow{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:900px){.sb{transform:translateX(-228px)}.main{margin-left:0}.cg2,.cg3,.cgeq{grid-template-columns:1fr}.tgt-grid{grid-template-columns:1fr 1fr}}
+.kc{animation:fu .45s ease both;}
+.kc:nth-child(1){animation-delay:.03s}.kc:nth-child(2){animation-delay:.06s}.kc:nth-child(3){animation-delay:.09s}
+.kc:nth-child(4){animation-delay:.12s}.kc:nth-child(5){animation-delay:.15s}.kc:nth-child(6){animation-delay:.18s}
+.kc:nth-child(7){animation-delay:.21s}.kc:nth-child(8){animation-delay:.24s}.kc:nth-child(9){animation-delay:.27s}
+.tgt-banner,.day-card,.pay-card,.call-card{animation:fu .45s ease both;animation-delay:.2s;}
+@media(max-width:1100px){.kpi-section{grid-template-columns:repeat(3,1fr)}.pay-grid{grid-template-columns:repeat(2,1fr)}.call-sum{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.sb{transform:translateX(-228px)}.main{margin-left:0}.tgt-grid{grid-template-columns:1fr 1fr}.day-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.kpi-section{grid-template-columns:repeat(2,1fr)}.pay-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 
+<!-- MODAL -->
 <div class="modal-bg" id="cfgModal">
   <div class="modal">
     <h2>⚙️ Dashboard Configuration</h2>
-    <p class="modal-sub">Set your Google Sheet CSV URL and targets. Saved in your browser — do once!</p>
+    <p class="modal-sub">Set your Google Sheet CSV URL and sales targets. Saved in your browser.</p>
     <div class="modal-hint">
-      <b>How to get the CSV URL:</b><br/>
-      In Google Sheets → <b>File → Share → Publish to web</b> → Select sheet <b>TriQ_Sales_Data</b> → Format: <b>CSV</b> → Publish → Copy the URL
+      <b>How to get CSV URL:</b> Google Sheets → File → Share → Publish to web → Select sheet <b>TriQ_Sales_Data</b> → Format <b>CSV</b> → Publish → Copy URL
     </div>
-    <div class="fg">
-      <label>Google Sheet CSV URL</label>
-      <input type="text" id="cfgUrl" placeholder="https://docs.google.com/spreadsheets/d/.../pub?...output=csv"/>
-    </div>
+    <div class="fg"><label>Google Sheet CSV URL</label><input type="text" id="cfgUrl" placeholder="https://docs.google.com/spreadsheets/d/.../pub?...output=csv"/></div>
     <div class="fg-row">
       <div class="fg"><label>Monthly Target (₹)</label><input type="number" id="cfgMT" placeholder="500000"/></div>
       <div class="fg"><label>Daily Target (₹)</label><input type="number" id="cfgDT" placeholder="20000"/></div>
     </div>
     <div class="fg-row">
       <div class="fg"><label>Daily Call Target</label><input type="number" id="cfgCT" placeholder="50"/></div>
-      <div class="fg"><label>Dashboard Title</label><input type="text" id="cfgTitle" placeholder="Daily Report — TriQ"/></div>
+      <div class="fg"><label>Your Name / Title</label><input type="text" id="cfgTitle" placeholder="e.g. Sunith Kumar"/></div>
     </div>
     <div class="modal-actions">
       <button class="btn-pri" onclick="saveConfig()">💾 Save & Load Dashboard</button>
@@ -227,6 +250,7 @@ tbody td{padding:8px 13px;white-space:nowrap;color:var(--tx);}
   </div>
 </div>
 
+<!-- SIDEBAR -->
 <div class="sb">
   <div class="sb-top">
     <img class="sb-logo" src="data:image/jpeg;base64,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" alt="TriQ Pharma"/>
@@ -238,9 +262,9 @@ tbody td{padding:8px 13px;white-space:nowrap;color:var(--tx);}
     <div class="ns">Views</div>
     <div class="ni on" onclick="scrollTo(0,0)">📊 Overview</div>
     <div class="ni" onclick="scrollSec('sec-target')">🎯 Targets</div>
-    <div class="ni" onclick="scrollSec('sec-trends')">📈 Sales Trends</div>
-    <div class="ni" onclick="scrollSec('sec-calls')">📞 Call Report</div>
+    <div class="ni" onclick="scrollSec('sec-daily')">📅 Daily Breakdown</div>
     <div class="ni" onclick="scrollSec('sec-products')">💊 Products</div>
+    <div class="ni" onclick="scrollSec('sec-calls')">📞 Call Report</div>
     <div class="ni" onclick="scrollSec('sec-payments')">💳 Payments</div>
     <div class="ni" onclick="scrollSec('sec-table')">📋 All Orders</div>
   </div>
@@ -250,6 +274,7 @@ tbody td{padding:8px 13px;white-space:nowrap;color:var(--tx);}
   </div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="tb-left">
@@ -263,7 +288,7 @@ tbody td{padding:8px 13px;white-space:nowrap;color:var(--tx);}
   </div>
 
   <div class="ct" id="mainCt">
-    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+    <div class="loading"><div class="spinner"></div><p>Loading dashboard...</p></div>
   </div>
 
   <div class="ft">
@@ -271,290 +296,226 @@ tbody td{padding:8px 13px;white-space:nowrap;color:var(--tx);}
       <img class="ft-logo" src="data:image/jpeg;base64,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" alt=""/>
       <div class="ft-txt"><b>TriQ Pharma</b> · Live Sales &amp; Call Dashboard</div>
     </div>
-    <div class="ft-r">Auto-refresh every 5 mins</div>
+    <div class="ft-r">Auto-refresh every 5 mins · No charts · Pure data</div>
   </div>
 </div>
 
 <script>
-const CFG_KEY = 'triq_cfg_v2';
-let cfg = JSON.parse(localStorage.getItem(CFG_KEY)||'{}');
-let allData = [], charts = {};
+const CFG_KEY='triq_cfg_v3';
+let cfg=JSON.parse(localStorage.getItem(CFG_KEY)||'{}');
+let allData=[];
 
-document.getElementById('todayDate').textContent =
-  new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
-window.addEventListener('DOMContentLoaded', () => {
-  if (!cfg.url) openModal();
-  else loadData();
-  setInterval(loadData, 5*60*1000);
+window.addEventListener('DOMContentLoaded',()=>{
+  if(!cfg.url) openModal(); else loadData();
+  setInterval(loadData,5*60*1000);
 });
 
 function openModal(){
-  if(cfg.url) document.getElementById('cfgUrl').value = cfg.url;
-  if(cfg.mt)  document.getElementById('cfgMT').value  = cfg.mt;
-  if(cfg.dt)  document.getElementById('cfgDT').value  = cfg.dt;
-  if(cfg.ct)  document.getElementById('cfgCT').value  = cfg.ct;
-  if(cfg.title) document.getElementById('cfgTitle').value = cfg.title;
+  if(cfg.url) document.getElementById('cfgUrl').value=cfg.url;
+  if(cfg.mt)  document.getElementById('cfgMT').value=cfg.mt;
+  if(cfg.dt)  document.getElementById('cfgDT').value=cfg.dt;
+  if(cfg.ct)  document.getElementById('cfgCT').value=cfg.ct;
+  if(cfg.title) document.getElementById('cfgTitle').value=cfg.title;
   document.getElementById('cfgModal').classList.add('show');
 }
-function closeModal(){ document.getElementById('cfgModal').classList.remove('show'); }
+function closeModal(){document.getElementById('cfgModal').classList.remove('show');}
 function saveConfig(){
-  cfg = {
-    url:   document.getElementById('cfgUrl').value.trim(),
-    mt:    parseFloat(document.getElementById('cfgMT').value)||500000,
-    dt:    parseFloat(document.getElementById('cfgDT').value)||20000,
-    ct:    parseInt(document.getElementById('cfgCT').value)||50,
-    title: document.getElementById('cfgTitle').value.trim()||'Daily Report',
+  cfg={
+    url:document.getElementById('cfgUrl').value.trim(),
+    mt:parseFloat(document.getElementById('cfgMT').value)||500000,
+    dt:parseFloat(document.getElementById('cfgDT').value)||20000,
+    ct:parseInt(document.getElementById('cfgCT').value)||50,
+    title:document.getElementById('cfgTitle').value.trim()||'',
   };
-  localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
-  closeModal();
-  loadData();
+  localStorage.setItem(CFG_KEY,JSON.stringify(cfg));
+  closeModal(); loadData();
 }
 
-// ── FLEXIBLE CSV URL FIXER ──────────────────────────────────
-// Converts any Google Sheet URL format into a proper CSV export URL
-function fixSheetUrl(url) {
-  if (!url) return null;
-  url = url.trim();
-
-  // Already a correct pub CSV url
-  if (url.includes('output=csv') || url.includes('format=csv')) return url;
-
-  // Extract the spreadsheet ID
-  const idMatch = url.match(/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
-  if (!idMatch) return url; // return as-is, let it try
-
-  const id = idMatch[1];
-  // Extract gid if present
-  const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
-  const gid = gidMatch ? gidMatch[1] : '0';
-
-  return `https://docs.google.com/spreadsheets/d/${id}/pub?gid=${gid}&single=true&output=csv`;
+function fixUrl(url){
+  if(!url) return null;
+  url=url.trim();
+  if(url.includes('output=csv')||url.includes('format=csv')) return url;
+  const id=url.match(/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  if(!id) return url;
+  const gid=url.match(/[#&?]gid=([0-9]+)/);
+  return `https://docs.google.com/spreadsheets/d/${id[1]}/pub?gid=${gid?gid[1]:'0'}&single=true&output=csv`;
 }
 
-// ── MULTIPLE PROXY FALLBACKS ────────────────────────────────
-const PROXIES = [
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+const PROXIES=[
+  u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u=>`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
 ];
-
-async function fetchWithFallback(url) {
-  for (let i = 0; i < PROXIES.length; i++) {
-    try {
-      const proxyUrl = PROXIES[i](url);
-      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
-      if (res.ok) {
-        const text = await res.text();
-        if (text && text.length > 10 && !text.includes('<html')) return text;
-      }
-    } catch(e) { /* try next proxy */ }
+async function fetchCSV(url){
+  for(const p of PROXIES){
+    try{
+      const r=await fetch(p(url),{signal:AbortSignal.timeout(8000)});
+      if(r.ok){const t=await r.text();if(t&&t.length>10&&!t.includes('<html')) return t;}
+    }catch(e){}
   }
-  throw new Error('All proxies failed');
+  throw new Error('Could not fetch data');
 }
 
-async function loadData() {
-  if (!cfg.url) return;
-  const csvUrl = fixSheetUrl(cfg.url);
-  try {
-    const csv = await fetchWithFallback(csvUrl);
-    allData = parseCSV(csv);
-    if (!allData.length) throw new Error('Empty data');
-    document.getElementById('lastUpd').textContent = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-    renderDash();
-  } catch(e) {
-    if (!allData.length) showError(e.message);
+async function loadData(){
+  if(!cfg.url) return;
+  const csvUrl=fixUrl(cfg.url);
+  try{
+    const csv=await fetchCSV(csvUrl);
+    allData=parseCSV(csv);
+    if(!allData.length) throw new Error('Empty');
+    document.getElementById('lastUpd').textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    render();
+  }catch(e){
+    if(!allData.length) showErr(e.message);
   }
 }
 
-// ── ROBUST CSV PARSER ───────────────────────────────────────
-function parseCSV(text) {
-  const lines = text.replace(/\r/g,'').trim().split('\n');
-  if (lines.length < 2) return [];
-  const headers = splitCSVLine(lines[0]);
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const vals = splitCSVLine(lines[i]);
-    const obj = {};
-    headers.forEach((h,j) => obj[h.trim()] = (vals[j]||'').trim());
-    rows.push(obj);
-  }
-  return rows;
+function parseCSV(text){
+  const lines=text.replace(//g,'').trim().split('
+');
+  if(lines.length<2) return [];
+  const headers=splitLine(lines[0]);
+  return lines.slice(1).filter(l=>l.trim()).map(l=>{
+    const vals=splitLine(l);
+    const obj={};
+    headers.forEach((h,i)=>obj[h.trim()]=(vals[i]||'').trim());
+    return obj;
+  });
 }
-function splitCSVLine(line) {
-  const result = []; let cur = ''; let inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    if (line[i] === '"') { inQ = !inQ; }
-    else if (line[i] === ',' && !inQ) { result.push(cur); cur = ''; }
-    else cur += line[i];
+function splitLine(line){
+  const r=[];let c='';let q=false;
+  for(let i=0;i<line.length;i++){
+    if(line[i]==='"'){q=!q;}
+    else if(line[i]===','&&!q){r.push(c);c='';}
+    else c+=line[i];
   }
-  result.push(cur);
-  return result;
+  r.push(c); return r;
 }
 
-// ── FLEXIBLE COLUMN GETTER ──────────────────────────────────
-// Works with ANY column naming — matches your actual sheet columns
-function getCol(row, ...keys) {
-  const rkeys = Object.keys(row);
-  for (const k of keys) {
-    const match = rkeys.find(rk =>
-      rk.toLowerCase().replace(/[^a-z0-9]/g,'').includes(k.toLowerCase().replace(/[^a-z0-9]/g,''))
-    );
-    if (match && row[match] !== undefined && row[match] !== '') return row[match];
+// Flexible column matching
+function getCol(row,...keys){
+  const rkeys=Object.keys(row);
+  for(const k of keys){
+    const m=rkeys.find(rk=>rk.toLowerCase().replace(/[^a-z0-9]/g,'').includes(k.toLowerCase().replace(/[^a-z0-9]/g,'')));
+    if(m&&row[m]!==undefined&&row[m]!=='') return row[m];
   }
   return '';
 }
-function getNum(row, ...keys) {
-  const v = getCol(row, ...keys);
-  return parseFloat((v||'0').replace(/[^0-9.-]/g,'')) || 0;
-}
+function getNum(row,...keys){return parseFloat((getCol(row,...keys)||'0').replace(/[^0-9.-]/g,''))||0;}
 
-// Based on your ACTUAL column names from the screenshot:
-// "Order Date", "Shipped Date", "Product name",
-// "Amout to be paid", "Balance amount to receive"
-function getDate(row) {
-  const raw = getCol(row,'Order Date','Order Created','Created date','date','day','Order Created date');
-  if (!raw) return '';
-  // Handle formats: "2026-04-23 18:00:00", "2026-04-23T18:00:00", "2026-04-23", "23/04/2026"
-  const s = String(raw).trim();
-  // ISO format with space or T
-  const isoMatch = s.match(/^(\d{4}-\d{2}-\d{2})/);
-  if (isoMatch) return isoMatch[1];
-  // DD/MM/YYYY
-  const dmyMatch = s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
-  if (dmyMatch) return dmyMatch[3]+'-'+dmyMatch[2]+'-'+dmyMatch[1];
+function getDate(row){
+  const raw=getCol(row,'Order Date','Order Created','Created date','date','day','Order Created date');
+  if(!raw) return '';
+  const s=String(raw).trim();
+  const iso=s.match(/^(\d{4}-\d{2}-\d{2})/);
+  if(iso) return iso[1];
+  const dmy=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  if(dmy) return dmy[3]+'-'+dmy[2]+'-'+dmy[1];
   return s.slice(0,10);
 }
-function getSale(row)     { return getNum(row,'Amout to be paid','amount to be paid','sale','amount','price','revenue','total','value','lineitem price'); }
-function getBalance(row)  { return getNum(row,'Balance amount to receive','balance amount','outstanding','balance','pending','due'); }
-function getPaid(row)     { return getSale(row) - getBalance(row); }
-function getProduct(row)  { return getCol(row,'Product name','product','item','name','lineitem name','sku'); }
-function getStatus(row)   { return getCol(row,'Financial Status','status','payment status'); }
-function getCallsMade(row){ return getNum(row,'Calls Made','calls made','made','outgoing','dialed'); }
-function getCallsRecv(row){ return getNum(row,'Calls Received','calls received','received','incoming'); }
-function getShipped(row)  { return getCol(row,'Shipped Date','shipped','delivery','fulfillment date'); }
+function getSale(row){return getNum(row,'Amout to be paid','amount to be paid','sale','amount','price','revenue','total','value','lineitem price');}
+function getBalance(row){return getNum(row,'Balance amount to receive','balance amount','outstanding','balance','pending','due');}
+function getProduct(row){return getCol(row,'Product name','product','item','name','lineitem name','sku');}
+function getStatus(row){return getCol(row,'Financial Status','status','payment status');}
+function getCallsMade(row){return getNum(row,'Calls Made','calls made','made','outgoing','dialed');}
+function getCallsRecv(row){return getNum(row,'Calls Received','calls received','received','incoming');}
+function getCallsConn(row){return getNum(row,'Calls Connected','connected','calls connected');}
+function getShipped(row){return getCol(row,'Shipped Date','shipped','delivery');}
+function getMethod(row){return getCol(row,'Payment Method','method','payment method');}
+function getFulfill(row){return getCol(row,'Fulfillment Status','fulfillment','fulfilled');}
 
-// ── FORMAT ──────────────────────────────────────────────────
-function fmt(n){ if(n>=1e7) return '₹'+(n/1e7).toFixed(2)+'Cr'; if(n>=1e5) return '₹'+(n/1e5).toFixed(1)+'L'; if(n>=1000) return '₹'+Math.round(n).toLocaleString('en-IN'); return '₹'+Math.round(n); }
-function fmts(n){ if(n>=1e5) return (n/1e5).toFixed(1)+'L'; if(n>=1000) return (n/1000).toFixed(1)+'K'; return Math.round(n).toString(); }
-function ha(h,a){ try{let r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return `rgba(${r},${g},${b},${a})`;}catch(e){return h;} }
-function dc(id){ if(charts[id]){charts[id].destroy();delete charts[id];} }
-function today(){ return new Date().toISOString().slice(0,10); }
-function thisMonth(){ return new Date().toISOString().slice(0,7); }
+function fmt(n){if(n>=1e7)return'₹'+(n/1e7).toFixed(2)+'Cr';if(n>=1e5)return'₹'+(n/1e5).toFixed(1)+'L';if(n>=1000)return'₹'+Math.round(n).toLocaleString('en-IN');return'₹'+Math.round(n);}
+function fmtN(n){if(n>=1e5)return(n/1e5).toFixed(1)+'L';if(n>=1000)return(n/1000).toFixed(1)+'K';return Math.round(n).toLocaleString('en-IN');}
+function ha(h,a){try{let r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}catch(e){return h;}}
+function today(){return new Date().toISOString().slice(0,10);}
+function thisMonth(){return new Date().toISOString().slice(0,7);}
 
-function showError(msg) {
-  document.getElementById('mainCt').innerHTML = `
-    <div class="nodata">
-      <div class="nodata-ic">⚠️</div>
-      <h3>Could not load data</h3>
-      <p>Make sure your Google Sheet is <b>published as CSV</b> and the URL is correct.</p>
-      <p style="font-size:11px;margin-top:4px;color:#f87171">${msg}</p>
-      <p style="font-size:11px;margin-top:8px">In Google Sheets → <b>File → Share → Publish to web</b> → Select <b>TriQ_Sales_Data</b> sheet → <b>CSV</b> → Publish → Copy URL</p>
-      <button class="fix-btn" onclick="openModal()">⚙ Configure Now</button>
-    </div>`;
+function showErr(msg){
+  document.getElementById('mainCt').innerHTML=`<div class="nodata"><div style="font-size:48px;margin-bottom:16px">⚠️</div><h3>Could not load data</h3><p>${msg}</p><p style="font-size:11px;margin-top:6px">Make sure your Google Sheet is published as CSV.</p><button class="fix-btn" onclick="openModal()">⚙ Configure Now</button></div>`;
 }
 
-// ── RENDER ───────────────────────────────────────────────────
-function renderDash() {
-  const data = allData;
-  const mt = cfg.mt||500000, dt = cfg.dt||20000, ct2 = cfg.ct||50;
-  const todayStr = today(), monthStr = thisMonth();
-  const OG='#E8791A',GR='#22c55e',BL='#60a5fa',AM='#fcd34d',TC='#2dd4bf',RD='#f87171',PR='#c084fc';
-  const mu='#7A8FA8', dbg='#090E18';
-  const pal=[OG,'#F5A050',GR,BL,TC,AM,PR,RD,'#34d399','#fb923c'];
+function render(){
+  const data=allData;
+  const mt=cfg.mt||500000,dt=cfg.dt||20000,ct2=cfg.ct||50;
+  const todayStr=today(),monthStr=thisMonth();
+  const OG='#E8791A',GR='#22c55e',BL='#60a5fa',AM='#fcd34d',TC='#2dd4bf',RD='#f87171';
 
-  // ── Core metrics ─────────────────────────────────────────
-  const totalRev    = data.reduce((s,r)=>s+getSale(r),0);
-  const totalBal    = data.reduce((s,r)=>s+getBalance(r),0);
-  const totalColl   = totalRev - totalBal;
-  const todayRev    = data.filter(r=>getDate(r).slice(0,10)===todayStr).reduce((s,r)=>s+getSale(r),0);
-  const monthRev    = data.filter(r=>getDate(r).slice(0,7)===monthStr).reduce((s,r)=>s+getSale(r),0);
-  const todayOrders = data.filter(r=>getDate(r).slice(0,10)===todayStr).length;
-  const totalCalls  = data.reduce((s,r)=>s+getCallsMade(r),0);
-  const todayCalls  = data.filter(r=>getDate(r).slice(0,10)===todayStr).reduce((s,r)=>s+getCallsMade(r),0);
+  // Core metrics
+  const totalRev=data.reduce((s,r)=>s+getSale(r),0);
+  const totalBal=data.reduce((s,r)=>s+getBalance(r),0);
+  const totalColl=totalRev-totalBal;
+  const todayRows=data.filter(r=>getDate(r)===todayStr);
+  const todayRev=todayRows.reduce((s,r)=>s+getSale(r),0);
+  const todayOrders=todayRows.length;
+  const todayBal=todayRows.reduce((s,r)=>s+getBalance(r),0);
+  const todayColl=todayRev-todayBal;
+  const monthRows=data.filter(r=>getDate(r).slice(0,7)===monthStr);
+  const monthRev=monthRows.reduce((s,r)=>s+getSale(r),0);
+  const totalCalls=data.reduce((s,r)=>s+getCallsMade(r),0);
+  const totalRecv=data.reduce((s,r)=>s+getCallsRecv(r),0);
+  const totalConn=data.reduce((s,r)=>s+getCallsConn(r),0);
+  const todayCalls=todayRows.reduce((s,r)=>s+getCallsMade(r),0);
 
-  const mpct = Math.min((monthRev/mt)*100,100).toFixed(1);
-  const dpct = Math.min((todayRev/dt)*100,100).toFixed(1);
-  const mc = mpct>=100?GR:mpct>=70?AM:OG;
-  const dc2= dpct>=100?GR:dpct>=70?AM:OG;
+  const mpct=Math.min((monthRev/mt)*100,100).toFixed(1);
+  const dpct=Math.min((todayRev/dt)*100,100).toFixed(1);
+  const mc=mpct>=100?GR:mpct>=70?AM:OG;
+  const dc=dpct>=100?GR:dpct>=70?AM:OG;
 
-  // ── Daily aggregates ─────────────────────────────────────
-  const daily = {};
+  // Daily aggregates
+  const daily={};
   data.forEach(r=>{
-    const raw = getDate(r);
-    const d = raw ? raw.slice(0,10) : '';
-    if(!d || d.length < 8 || !d.match(/^\d{4}-\d{2}-\d{2}$/)) return;
-    if(!daily[d]) daily[d]={rev:0,bal:0,calls:0,recv:0,orders:0};
-    daily[d].rev    += getSale(r);
-    daily[d].bal    += getBalance(r);
-    daily[d].calls  += getCallsMade(r);
-    daily[d].recv   += getCallsRecv(r);
-    daily[d].orders++;
+    const d=getDate(r);
+    if(!d||!d.match(/^\d{4}-\d{2}-\d{2}$/)) return;
+    if(!daily[d]) daily[d]={rev:0,bal:0,calls:0,recv:0,conn:0,orders:0};
+    daily[d].rev+=getSale(r); daily[d].bal+=getBalance(r);
+    daily[d].calls+=getCallsMade(r); daily[d].recv+=getCallsRecv(r);
+    daily[d].conn+=getCallsConn(r); daily[d].orders++;
   });
-  const dk = Object.keys(daily).sort();
-  const dlbls = dk.map(d=>new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short'}));
-  const drevs = dk.map(d=>Math.round(daily[d].rev));
-  const dbals = dk.map(d=>Math.round(daily[d].bal));
-  const dcolls= dk.map(d=>Math.round(daily[d].rev-daily[d].bal));
-  const dcalls= dk.map(d=>Math.round(daily[d].calls));
-  const drecvs= dk.map(d=>Math.round(daily[d].recv));
+  const dk=Object.keys(daily).sort().reverse(); // most recent first
 
-  let run=0; const cumul=drevs.map(v=>{run+=v;return Math.round(run);});
-
-  // ── Products ─────────────────────────────────────────────
+  // Products
   const prods={};
   data.forEach(r=>{
     const p=getProduct(r)||'Unknown';
     if(!prods[p]) prods[p]={rev:0,cnt:0,bal:0};
     prods[p].rev+=getSale(r); prods[p].bal+=getBalance(r); prods[p].cnt++;
   });
-  const ps=Object.entries(prods).sort((a,b)=>b[1].rev-a[1].rev).slice(0,8);
+  const ps=Object.entries(prods).sort((a,b)=>b[1].rev-a[1].rev);
+  const maxProdRev=ps.length?ps[0][1].rev:1;
 
-  // ── Payment statuses ─────────────────────────────────────
-  const sts={};
-  data.forEach(r=>{
-    let s = getStatus(r)||'paid';
-    if(s==='partially_paid') s='Partially Paid';
-    else if(s==='paid') s='Paid';
-    else if(s==='pending') s='Pending';
-    else if(s==='voided') s='Voided';
-    else s = s.charAt(0).toUpperCase()+s.slice(1);
-    sts[s]=(sts[s]||0)+1;
-  });
+  // Payment statuses
+  const paid=data.filter(r=>{const s=getStatus(r).toLowerCase();return s==='paid'||s==='fully paid';});
+  const partial=data.filter(r=>getStatus(r).toLowerCase().includes('partial'));
+  const pending=data.filter(r=>getStatus(r).toLowerCase()==='pending');
+  const voided=data.filter(r=>getStatus(r).toLowerCase()==='voided');
 
-  // ── Chart base options ───────────────────────────────────
-  const bOpt=(leg=true)=>({responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:leg,labels:{color:mu,font:{family:'DM Sans',size:10},boxWidth:9,padding:10}}},
-    scales:{x:{ticks:{color:mu,font:{family:'DM Sans',size:9},maxTicksLimit:12},grid:{color:'rgba(255,255,255,.04)'},border:{color:'rgba(255,255,255,.05)'}},
-            y:{ticks:{color:mu,font:{family:'DM Sans',size:9},callback:v=>fmts(v)},grid:{color:'rgba(255,255,255,.04)'},border:{color:'rgba(255,255,255,.05)'}}}});
-  const noSc=()=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:mu,font:{family:'DM Sans',size:10},boxWidth:8,padding:9}}}});
-
-  // ── BUILD HTML ───────────────────────────────────────────
   document.getElementById('mainCt').innerHTML = `
 
+    <!-- TARGET BANNER -->
     <div id="sec-target" class="tgt-banner">
       <div class="tgt-grid">
         <div>
           <div class="tgt-m-lbl">Monthly Target</div>
           <div class="tgt-m-val">${fmt(mt)}</div>
-          <div class="tgt-m-sub">Target for this month</div>
+          <div class="tgt-m-sub">Set for this month</div>
         </div>
         <div>
           <div class="tgt-m-lbl">Monthly Achieved</div>
           <div class="tgt-m-val" style="color:${mc}">${fmt(monthRev)}</div>
           <div class="tgt-m-sub">${mpct}% of monthly target</div>
         </div>
-        <div style="flex:1">
+        <div>
           <div class="tp-row">
             <div class="tp-labels"><span class="tp-lbl">Monthly Progress</span><span class="tp-pct" style="color:${mc}">${mpct}%</span></div>
             <div class="tp-track"><div class="tp-fill" style="width:${mpct}%;background:linear-gradient(90deg,${mc},${mc}cc)"></div></div>
             <div class="tp-sub"><span>${fmt(monthRev)} achieved</span><span>${fmt(Math.max(mt-monthRev,0))} remaining</span></div>
           </div>
-          <div class="tp-row" style="margin-bottom:0">
-            <div class="tp-labels"><span class="tp-lbl">Today's Progress</span><span class="tp-pct" style="color:${dc2}">${dpct}%</span></div>
-            <div class="tp-track"><div class="tp-fill" style="width:${dpct}%;background:linear-gradient(90deg,${dc2},${dc2}cc)"></div></div>
-            <div class="tp-sub"><span>Today: ${fmt(todayRev)}</span><span>Daily target: ${fmt(dt)}</span></div>
+          <div class="tp-row">
+            <div class="tp-labels"><span class="tp-lbl">Today's Progress</span><span class="tp-pct" style="color:${dc}">${dpct}%</span></div>
+            <div class="tp-track"><div class="tp-fill" style="width:${dpct}%;background:linear-gradient(90deg,${dc},${dc}cc)"></div></div>
+            <div class="tp-sub"><span>Today: ${fmt(todayRev)}</span><span>Target: ${fmt(dt)}</span></div>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
@@ -564,142 +525,160 @@ function renderDash() {
       </div>
     </div>
 
+    <!-- KPI GRID 3x3 -->
     <div class="sec-hd"><div class="sec-dot"></div><span>Key Metrics</span></div>
-    <div class="krow">
-      <div class="kc ko"><div class="kblb"></div><span class="k-ic">💰</span><div class="k-lbl">Total Revenue</div><div class="k-val">${fmt(totalRev)}</div><div class="k-sub">${data.length} records</div></div>
-      <div class="kc kg"><div class="kblb"></div><span class="k-ic">📅</span><div class="k-lbl">Today's Sales</div><div class="k-val">${fmt(todayRev)}</div><div class="k-sub">${todayOrders} entries · ${dpct}% of target</div></div>
-      <div class="kc kb"><div class="kblb"></div><span class="k-ic">📞</span><div class="k-lbl">Total Calls</div><div class="k-val">${Math.round(totalCalls)||'—'}</div><div class="k-sub">Today: ${Math.round(todayCalls)||0}</div></div>
-      <div class="kc ka"><div class="kblb"></div><span class="k-ic">✅</span><div class="k-lbl">Collected</div><div class="k-val">${fmt(totalColl)}</div><div class="k-sub">${totalRev>0?((totalColl/totalRev)*100).toFixed(1)+'% rate':'—'}</div></div>
-      <div class="kc kr"><div class="kblb"></div><span class="k-ic">⏳</span><div class="k-lbl">Outstanding</div><div class="k-val">${fmt(totalBal)}</div><div class="k-sub">Pending collection</div></div>
-      <div class="kc kt"><div class="kblb"></div><span class="k-ic">📦</span><div class="k-lbl">This Month</div><div class="k-val">${fmt(monthRev)}</div><div class="k-sub">${mpct}% of ₹${(mt/1000).toFixed(0)}K target</div></div>
+    <div class="kpi-section">
+      <div class="kc ko"><div class="kblb"></div><span class="k-ic">💰</span><div class="k-lbl">Total Revenue</div><div class="k-val">${fmt(totalRev)}</div><div class="k-sub">${data.length} total orders</div></div>
+      <div class="kc kg"><div class="kblb"></div><span class="k-ic">✅</span><div class="k-lbl">Total Collected</div><div class="k-val">${fmt(totalColl)}</div><div class="k-sub">${totalRev>0?((totalColl/totalRev)*100).toFixed(1)+'% collection rate':'—'}</div><div class="k-trnd tup">↑</div></div>
+      <div class="kc kr"><div class="kblb"></div><span class="k-ic">⏳</span><div class="k-lbl">Outstanding</div><div class="k-val">${fmt(totalBal)}</div><div class="k-sub">Pending collection</div><div class="k-trnd tdn">${totalRev>0?((totalBal/totalRev)*100).toFixed(1)+'%':''}</div></div>
+      <div class="kc ka"><div class="kblb"></div><span class="k-ic">📅</span><div class="k-lbl">Today's Sales</div><div class="k-val">${fmt(todayRev)}</div><div class="k-sub">${todayOrders} orders · ${fmt(todayColl)} collected</div><div class="k-trnd ${parseFloat(dpct)>=100?'tup':'tdn'}">${dpct}%</div></div>
+      <div class="kc kb"><div class="kblb"></div><span class="k-ic">📦</span><div class="k-lbl">This Month</div><div class="k-val">${fmt(monthRev)}</div><div class="k-sub">${monthRows.length} orders this month</div><div class="k-trnd ${parseFloat(mpct)>=100?'tup':'tdn'}">${mpct}%</div></div>
+      <div class="kc kt"><div class="kblb"></div><span class="k-ic">📞</span><div class="k-lbl">Total Calls Made</div><div class="k-val">${Math.round(totalCalls)||'—'}</div><div class="k-sub">Today: ${Math.round(todayCalls)||0} · Recv: ${Math.round(totalRecv)||0}</div></div>
     </div>
 
-    <div id="sec-trends" class="sec-hd"><div class="sec-dot"></div><span>Sales Trends</span></div>
-    <div class="cgrid cg2">
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Daily Revenue</div><div class="cc-su">Sales per day</div></div><div class="cc-bg">${fmt(totalRev)}</div></div><canvas id="dailyC" height="220"></canvas></div>
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Cumulative Revenue</div><div class="cc-su">Running total</div></div><div class="cc-bg g">Growth</div></div><canvas id="cumulC" height="220"></canvas></div>
+    <!-- PAYMENT STATUS CARDS -->
+    <div class="sec-hd"><div class="sec-dot"></div><span>Payment Status</span></div>
+    <div class="pay-grid">
+      <div class="pay-card"><div class="pay-ic">✅</div><div class="pay-lbl">Fully Paid</div><div class="pay-val" style="color:#22c55e">${paid.length}</div><div class="pay-sub">${fmt(paid.reduce((s,r)=>s+getSale(r),0))}</div></div>
+      <div class="pay-card"><div class="pay-ic">⚡</div><div class="pay-lbl">Partially Paid</div><div class="pay-val" style="color:#fcd34d">${partial.length}</div><div class="pay-sub">${fmt(partial.reduce((s,r)=>s+getBalance(r),0))} due</div></div>
+      <div class="pay-card"><div class="pay-ic">⏳</div><div class="pay-lbl">Pending</div><div class="pay-val" style="color:#f87171">${pending.length}</div><div class="pay-sub">${fmt(pending.reduce((s,r)=>s+getBalance(r),0))} due</div></div>
+      <div class="pay-card"><div class="pay-ic">❌</div><div class="pay-lbl">Voided</div><div class="pay-val" style="color:#94a3b8">${voided.length}</div><div class="pay-sub">${fmt(voided.reduce((s,r)=>s+getSale(r),0))}</div></div>
     </div>
 
-    <div id="sec-calls" class="sec-hd"><div class="sec-dot"></div><span>Call Report</span></div>
-    <div class="cgrid cgeq">
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Daily Call Activity</div><div class="cc-su">Calls made & received</div></div><div class="cc-bg b">${Math.round(totalCalls)} total</div></div><canvas id="callC" height="210"></canvas></div>
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Daily Target Achievement</div><div class="cc-su">Each day vs ₹${(dt/1000).toFixed(0)}K target</div></div></div><div id="dtpBars" style="max-height:210px;overflow-y:auto;padding-top:4px"></div></div>
+    <!-- DAILY BREAKDOWN + PRODUCTS -->
+    <div id="sec-daily" class="sec-hd"><div class="sec-dot"></div><span>Daily Breakdown</span></div>
+    <div class="day-grid">
+      <div class="day-card">
+        <div class="day-card-hd"><h3>📅 Daily Target Progress</h3><span style="font-size:10px;color:var(--txd)">vs ₹${fmtN(dt)} daily target</span></div>
+        <div class="day-sc">
+          ${dk.slice(0,20).map(d=>{
+            const rev=daily[d].rev;
+            const pct=Math.min((rev/dt)*100,100).toFixed(1);
+            const c=pct>=100?GR:pct>=70?AM:OG;
+            const gr=pct>=100?`linear-gradient(90deg,${GR},${TC})`:pct>=70?`linear-gradient(90deg,${AM},${GR})`:`linear-gradient(90deg,${OG},${AM})`;
+            const lbl=new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',weekday:'short'});
+            return `<div class="dtp-row">
+              <span class="dtp-date">${lbl}</span>
+              <div class="dtp-track"><div class="dtp-fill" style="width:${pct}%;background:${gr}"></div></div>
+              <span class="dtp-pct" style="color:${c}">${pct}%</span>
+              <span class="dtp-amt">${fmt(rev)}</span>
+            </div>`;
+          }).join('')||'<div style="padding:20px;text-align:center;color:var(--txd);font-size:12px">No data yet</div>'}
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-card-hd"><h3>📞 Daily Call Activity</h3><span style="font-size:10px;color:var(--txd)">Made · Received · Connected</span></div>
+        <div class="day-sc">
+          ${dk.slice(0,20).map(d=>{
+            const lbl=new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',weekday:'short'});
+            return `<div class="dtp-row">
+              <span class="dtp-date">${lbl}</span>
+              <span style="font-family:monospace;font-size:11px;min-width:30px;text-align:center;color:#60a5fa">${Math.round(daily[d].calls)||'—'}</span>
+              <span style="font-size:9px;color:var(--txd);min-width:30px;text-align:center">made</span>
+              <span style="font-family:monospace;font-size:11px;min-width:30px;text-align:center;color:#E8791A">${Math.round(daily[d].recv)||'—'}</span>
+              <span style="font-size:9px;color:var(--txd);min-width:30px;text-align:center">recv</span>
+              <span style="font-family:monospace;font-size:11px;min-width:30px;text-align:center;color:#22c55e">${Math.round(daily[d].conn)||'—'}</span>
+              <span style="font-size:9px;color:var(--txd)">conn</span>
+            </div>`;
+          }).join('')||'<div style="padding:20px;text-align:center;color:var(--txd);font-size:12px">No call data yet</div>'}
+        </div>
+      </div>
     </div>
 
+    <!-- PRODUCTS -->
     <div id="sec-products" class="sec-hd"><div class="sec-dot"></div><span>Product Performance</span></div>
-    <div class="cgrid cgeq">
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Revenue by Product</div><div class="cc-su">Top performing SKUs</div></div></div><canvas id="prodC" height="220"></canvas></div>
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Orders by Product</div><div class="cc-su">Order count per SKU</div></div></div><canvas id="prodCntC" height="220"></canvas></div>
+    <div class="day-card" style="margin-bottom:18px">
+      <div class="day-card-hd"><h3>💊 Revenue by Product</h3><span style="font-size:10px;color:var(--txd)">${ps.length} products · ${fmt(totalRev)} total</span></div>
+      <div>
+        ${ps.map((p,i)=>{
+          const pct=Math.round((p[1].rev/maxProdRev)*100);
+          const ranks=['🥇','🥈','🥉'];
+          return `<div class="prod-row">
+            <span class="prod-rank">${ranks[i]||('#'+(i+1))}</span>
+            <span class="prod-name">${p[0]}</span>
+            <div class="prod-bar-wrap"><div class="prod-bar" style="width:${pct}%"></div></div>
+            <span class="prod-rev">${fmt(p[1].rev)}</span>
+            <span class="prod-cnt">${p[1].cnt} orders</span>
+            ${p[1].bal>0?`<span style="font-size:9px;color:#f87171;min-width:60px;text-align:right">${fmt(p[1].bal)} due</span>`:'<span style="min-width:60px"></span>'}
+          </div>`;
+        }).join('')||'<div style="padding:20px;text-align:center;color:var(--txd);font-size:12px">No product data</div>'}
+      </div>
     </div>
 
-    <div id="sec-payments" class="sec-hd"><div class="sec-dot"></div><span>Payment Analysis</span></div>
-    <div class="cgrid cg2">
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Collected vs Outstanding per Day</div><div class="cc-su">Daily payment collection stacked</div></div><div class="cc-bg r">${fmt(totalBal)} due</div></div><canvas id="collC" height="220"></canvas></div>
-      <div class="cc"><div class="cc-hd"><div><div class="cc-ti">Payment Status Split</div><div class="cc-su">Orders by status</div></div></div><canvas id="stC" height="220"></canvas></div>
+    <!-- CALL SUMMARY -->
+    <div id="sec-calls" class="sec-hd"><div class="sec-dot"></div><span>Call Report Summary</span></div>
+    <div class="call-sum">
+      <div class="call-card"><div class="call-ic">📲</div><div class="call-lbl">Calls Made</div><div class="call-val">${Math.round(totalCalls)||'—'}</div><div class="call-sub">Today: ${Math.round(todayCalls)||0} · Target: ${ct2}</div></div>
+      <div class="call-card"><div class="call-ic">📥</div><div class="call-lbl">Calls Received</div><div class="call-val" style="color:#E8791A">${Math.round(totalRecv)||'—'}</div><div class="call-sub">Total incoming</div></div>
+      <div class="call-card"><div class="call-ic">🤝</div><div class="call-lbl">Connected</div><div class="call-val" style="color:#22c55e">${Math.round(totalConn)||'—'}</div><div class="call-sub">${totalCalls>0?((totalConn/totalCalls)*100).toFixed(1)+'% connect rate':'—'}</div></div>
     </div>
 
-    <div id="sec-table" class="sec-hd"><div class="sec-dot"></div><span>All Records</span></div>
+    <!-- ORDER TABLE -->
+    <div id="sec-payments" style="height:1px"></div>
+    <div id="sec-table" class="sec-hd"><div class="sec-dot"></div><span>All Orders</span></div>
     <div class="tbl-wrap">
-      <div class="tbl-top"><h3>📋 All Data — ${data.length} records</h3><span style="font-size:10px;color:var(--txd)">Most recent first · max 100 shown</span></div>
-      <div class="tsc"><table>
-        <thead><tr><th>Date</th><th>Product</th><th>Sale Amt</th><th>Collected</th><th>Outstanding</th><th>Status</th><th>Shipped</th></tr></thead>
-        <tbody>${[...data].reverse().slice(0,100).map(r=>{
-          const st=getStatus(r)||''; const sal=getSale(r); const bal=getBalance(r); const coll=sal-bal;
-          const bc=st.includes('paid')&&!st.includes('partial')?'b-p':st.includes('partial')?'b-pp':st.includes('pend')?'b-pn':'b-v';
-          return `<tr>
-            <td>${getDate(r).slice(0,10)}</td>
-            <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${getProduct(r)||'—'}</td>
-            <td>₹${sal.toLocaleString('en-IN')}</td>
-            <td style="color:#22c55e">₹${coll.toLocaleString('en-IN')}</td>
-            <td style="${bal>0?'color:#f87171;font-weight:600':''}">₹${bal.toLocaleString('en-IN')}</td>
-            <td><span class="badge ${bc}">${st||'—'}</span></td>
-            <td>${getShipped(r).slice(0,10)||'—'}</td>
-          </tr>`;
-        }).join('')}</tbody>
-      </table></div>
+      <div class="tbl-top">
+        <h3>📋 Order Details — ${data.length} records</h3>
+        <div class="tbl-filters">
+          <button class="tf on" onclick="filterTbl('all',this)">All</button>
+          <button class="tf" onclick="filterTbl('paid',this)">Paid</button>
+          <button class="tf" onclick="filterTbl('partial',this)">Partial</button>
+          <button class="tf" onclick="filterTbl('pending',this)">Pending</button>
+          <button class="tf" onclick="filterTbl('voided',this)">Voided</button>
+        </div>
+      </div>
+      <div class="tsc">
+        <table id="ordTbl">
+          <thead><tr>
+            <th>Date</th><th>Product</th>
+            <th>Sale Amt</th><th>Collected</th><th>Outstanding</th>
+            <th>Status</th><th>Fulfillment</th><th>Shipped</th><th>Method</th>
+          </tr></thead>
+          <tbody id="tblBody"></tbody>
+        </table>
+      </div>
     </div>
   `;
 
-  // ── DRAW CHARTS ──────────────────────────────────────────
-
-  // 1 — Daily Revenue - smart chart (line if many days, bar if few)
-  dc('d');
-  const useBar = dk.length <= 14;
-  const dailyChartData = {
-    labels: dlbls,
-    datasets: useBar ? [{
-      label:'Revenue',
-      data:drevs,
-      backgroundColor:drevs.map(v=>v>=dt?ha(GR,.75):ha(OG,.7)),
-      borderColor:drevs.map(v=>v>=dt?GR:OG),
-      borderWidth:1,
-      borderRadius:6,
-      borderSkipped:false
-    }] : [{
-      label:'Revenue',
-      data:drevs,
-      borderColor:OG,
-      backgroundColor:ha(OG,.12),
-      tension:.4,
-      fill:true,
-      pointRadius:4,
-      pointBackgroundColor:drevs.map(v=>v>=dt?GR:OG),
-      pointBorderColor:'#090E18',
-      pointBorderWidth:2,
-      borderWidth:2.5
-    }]
-  };
-  charts['d']=new Chart(document.getElementById('dailyC'),{
-    type: useBar ? 'bar' : 'line',
-    data: dailyChartData,
-    options:{...bOpt(false),
-      plugins:{legend:{display:false},
-        tooltip:{callbacks:{
-          title: t => t[0].label,
-          label: c => '₹'+c.raw.toLocaleString('en-IN') + (c.raw>=dt?' ✓ Target met':'')
-        }}
-      }
-    }
-  });
-
-  // 2 — Cumulative
-  dc('c'); charts['c']=new Chart(document.getElementById('cumulC'),{type:'line',data:{labels:dlbls,datasets:[{label:'Cumulative',data:cumul,borderColor:GR,backgroundColor:ha(GR,.09),tension:.44,fill:true,pointRadius:3,pointBackgroundColor:GR,pointBorderColor:dbg,pointBorderWidth:2,borderWidth:2.5}]},options:{...bOpt(false),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`₹${c.raw.toLocaleString('en-IN')}`}}}}});
-
-  // 3 — Calls
-  dc('ca'); const cDS=[];
-  if(dcalls.some(v=>v)) cDS.push({label:'Made',data:dcalls,backgroundColor:ha(GR,.8),borderRadius:4,borderSkipped:false});
-  if(drecvs.some(v=>v)) cDS.push({label:'Received',data:drecvs,backgroundColor:ha(OG,.8),borderRadius:4,borderSkipped:false});
-  if(cDS.length) charts['ca']=new Chart(document.getElementById('callC'),{type:'bar',data:{labels:dlbls,datasets:cDS},options:bOpt()});
-  else document.getElementById('callC').parentElement.innerHTML+='<div style="text-align:center;padding:30px;color:var(--txd);font-size:11px">No call data yet — add via entry form</div>';
-
-  // 4 — Daily target progress bars
-  const dtEl=document.getElementById('dtpBars');
-  if(dtEl) dtEl.innerHTML=dk.slice(-12).reverse().map(d=>{
-    const rev=daily[d].rev; const p=Math.min((rev/dt)*100,100).toFixed(1);
-    const c=p>=100?GR:p>=70?AM:OG;
-    const gr=p>=100?`linear-gradient(90deg,${GR},${TC})`:p>=70?`linear-gradient(90deg,${AM},${GR})`:`linear-gradient(90deg,${OG},${AM})`;
-    const lbl=new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
-    return `<div class="dtp-row"><span class="dtp-date">${lbl}</span><div class="dtp-track"><div class="dtp-fill" style="width:${p}%;background:${gr}"></div></div><span class="dtp-pct" style="color:${c}">${p}%</span><span class="dtp-amt">₹${Math.round(rev).toLocaleString('en-IN')}</span></div>`;
-  }).join('');
-
-  // 5 — Product revenue
-  if(ps.length){
-    const pl=ps.map(p=>p[0].length>20?p[0].slice(0,19)+'…':p[0]);
-    dc('pr'); charts['pr']=new Chart(document.getElementById('prodC'),{type:'bar',data:{labels:pl,datasets:[{label:'Revenue',data:ps.map(p=>Math.round(p[1].rev)),backgroundColor:pal.map(c=>ha(c,.82)),borderRadius:5,borderSkipped:false}]},options:{...bOpt(false),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`₹${c.raw.toLocaleString('en-IN')}`}}},scales:{x:{ticks:{color:mu,font:{family:'DM Sans',size:9},maxRotation:35},grid:{display:false},border:{color:'rgba(255,255,255,.05)'}},y:{ticks:{color:mu,font:{family:'DM Sans',size:9},callback:v=>fmts(v)},grid:{color:'rgba(255,255,255,.04)'},border:{color:'rgba(255,255,255,.05)'}}}}});
-    dc('pc'); charts['pc']=new Chart(document.getElementById('prodCntC'),{type:'bar',data:{labels:pl,datasets:[{label:'Orders',data:ps.map(p=>p[1].cnt),backgroundColor:pal.map(c=>ha(c,.82)),borderRadius:5,borderSkipped:false}]},options:{...bOpt(false),plugins:{legend:{display:false}},scales:{x:{ticks:{color:mu,font:{family:'DM Sans',size:9},maxRotation:35},grid:{display:false},border:{color:'rgba(255,255,255,.05)'}},y:{ticks:{color:mu,font:{family:'DM Sans',size:9},stepSize:1},grid:{color:'rgba(255,255,255,.04)'},border:{color:'rgba(255,255,255,.05)'}}}}});
-  }
-
-  // 6 — Collected vs Outstanding stacked
-  dc('co'); charts['co']=new Chart(document.getElementById('collC'),{type:'bar',data:{labels:dlbls,datasets:[{label:'Collected',data:dcolls,backgroundColor:ha(GR,.75),borderRadius:4,stack:'s'},{label:'Outstanding',data:dbals,backgroundColor:ha(RD,.7),borderRadius:4,stack:'s'}]},options:{...bOpt(),plugins:{legend:{labels:{color:mu,font:{family:'DM Sans',size:10},boxWidth:9,padding:10}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ₹${c.raw.toLocaleString('en-IN')}`}}},scales:{x:{stacked:true,ticks:{color:mu,font:{family:'DM Sans',size:9},maxTicksLimit:12},grid:{color:'rgba(255,255,255,.04)'},border:{color:'rgba(255,255,255,.05)'}},y:{stacked:true,ticks:{color:mu,font:{family:'DM Sans',size:9},callback:v=>fmts(v)},grid:{color:'rgba(255,255,255,.04)'},border:{color:'rgba(255,255,255,.05)'}}}}});
-
-  // 7 — Status donut
-  const stEnt=Object.entries(sts);
-  if(stEnt.length){
-    const stC=stEnt.map(([s])=>s.toLowerCase().includes('paid')&&!s.toLowerCase().includes('partial')?GR:s.toLowerCase().includes('partial')?AM:s.toLowerCase().includes('pend')?RD:'#94a3b8');
-    dc('st'); charts['st']=new Chart(document.getElementById('stC'),{type:'doughnut',data:{labels:stEnt.map(e=>e[0]),datasets:[{data:stEnt.map(e=>e[1]),backgroundColor:stC.map(c=>ha(c,.82)),borderColor:stC,borderWidth:1.5,hoverOffset:8}]},options:{...noSc(),cutout:'62%',plugins:{legend:{position:'bottom',labels:{color:mu,font:{family:'DM Sans',size:10},boxWidth:8,padding:8}}}}});
-  }
+  buildTable('all');
 }
 
+function buildTable(filter){
+  const data=allData;
+  const filtered=filter==='all'?data:data.filter(r=>{
+    const s=getStatus(r).toLowerCase();
+    if(filter==='paid') return s==='paid'||s==='fully paid';
+    if(filter==='partial') return s.includes('partial');
+    if(filter==='pending') return s==='pending';
+    if(filter==='voided') return s==='voided';
+    return true;
+  });
+  const sorted=[...filtered].sort((a,b)=>getDate(b).localeCompare(getDate(a)));
+  document.getElementById('tblBody').innerHTML=sorted.slice(0,150).map(r=>{
+    const sal=getSale(r),bal=getBalance(r),coll=sal-bal;
+    const st=getStatus(r).toLowerCase();
+    const bc=st==='paid'||st==='fully paid'?'b-p':st.includes('partial')?'b-pp':st==='pending'?'b-pn':'b-v';
+    const fl=getFulfill(r).toLowerCase();
+    const fc=fl.includes('fulfill')||fl==='fulfilled'?'b-f':'b-u';
+    return `<tr>
+      <td>${getDate(r)||'—'}</td>
+      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis">${getProduct(r)||'—'}</td>
+      <td><b style="color:#E8791A">₹${sal.toLocaleString('en-IN')}</b></td>
+      <td style="color:#22c55e">₹${coll.toLocaleString('en-IN')}</td>
+      <td style="${bal>0?'color:#f87171;font-weight:600':'color:var(--txd)'}">₹${bal.toLocaleString('en-IN')}</td>
+      <td><span class="badge ${bc}">${getStatus(r)||'—'}</span></td>
+      <td><span class="badge ${fc}">${getFulfill(r)||'—'}</span></td>
+      <td>${getShipped(r).slice(0,10)||'—'}</td>
+      <td style="font-size:10px;color:var(--txd)">${getMethod(r)||'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterTbl(f,btn){
+  document.querySelectorAll('.tf').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  buildTable(f);
+}
 function scrollSec(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
 document.querySelectorAll('.ni').forEach(el=>el.addEventListener('click',function(){document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));this.classList.add('on');}));
 </script>
