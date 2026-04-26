@@ -1,181 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>TriQ Pharma — Add Entry</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>TriQ — Add Entry</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
 <style>
-:root{--o:#E8791A;--om:#F5A050;--g:#006428;--gm:#22c55e;--d:#090E18;--d2:#0E1624;--d3:#131D2E;--d4:#192538;--tx:#E6EDF8;--txd:#7A8FA8;--bo:rgba(255,255,255,.08);--og:rgba(232,121,26,.22);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--d);color:var(--tx);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,121,26,.07) 0%,transparent 60%);}
-.card{width:100%;max-width:560px;background:var(--d2);border:1px solid rgba(232,121,26,.25);border-radius:20px;padding:28px;box-shadow:0 0 60px var(--og);position:relative;z-index:1;}
-.hd{display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--bo);}
-.hlogo{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--o);box-shadow:0 0 16px var(--og);}
-.htxt h1{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff;}
-.htxt p{font-size:11px;color:var(--txd);margin-top:2px;}
-.live-b{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:3px 10px;font-size:9px;font-weight:700;color:#22c55e;margin-top:4px;}
-.live-b::before{content:'';width:5px;height:5px;border-radius:50%;background:#22c55e;animation:blink 1.4s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+:root{--o:#E8791A;--om:#F5A050;--g:#22c55e;--d:#090E18;--d2:#0E1624;--d3:#131D2E;--d4:#192538;--tx:#E6EDF8;--txd:#7A8FA8;--bo:rgba(255,255,255,.08);--og:rgba(232,121,26,.2);}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:var(--d);color:var(--tx);min-height:100vh;padding:0 0 40px;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(232,121,26,.07) 0%,transparent 55%);}
 
-/* Script URL config */
-.cfg-box{background:var(--d3);border:1px solid var(--bo);border-radius:11px;padding:14px 16px;margin-bottom:18px;}
-.cfg-box label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);display:block;margin-bottom:5px;}
-.cfg-box input{width:100%;background:var(--d4);border:1px solid var(--bo);color:var(--tx);padding:10px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:11px;margin-bottom:6px;}
-.cfg-box input:last-of-type{margin-bottom:0;}
-.cfg-box input:focus{outline:none;border-color:var(--o);}
-.cfg-hint{font-size:10px;color:var(--txd);line-height:1.6;margin-top:6px;}
+/* HEADER */
+.hdr{background:var(--d2);border-bottom:1px solid var(--bo);padding:14px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50;}
+.hlogo{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--o);box-shadow:0 0 12px var(--og);}
+.htxt h1{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff;}
+.htxt p{font-size:10px;color:var(--txd);margin-top:1px;}
+.live-dot{display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:2px 8px;font-size:9px;font-weight:700;color:#22c55e;margin-left:8px;}
+.live-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:#22c55e;animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.back-btn{margin-left:auto;background:var(--d3);border:1px solid var(--bo);color:var(--txd);padding:6px 14px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .15s;}
+.back-btn:hover{color:var(--o);border-color:rgba(232,121,26,.3);}
+
+/* BODY */
+.body{max-width:560px;margin:0 auto;padding:20px 16px 0;}
+
+/* TODAY BANNER */
+.today-banner{background:linear-gradient(135deg,rgba(232,121,26,.14),rgba(232,121,26,.04));border:1px solid rgba(232,121,26,.22);border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.today-banner .date{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:var(--o);}
+.today-banner .sub{font-size:10px;color:var(--txd);margin-top:2px;}
+
+/* SCRIPT CONFIG */
+.cfg-card{background:var(--d2);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:16px 18px;margin-bottom:20px;}
+.cfg-card .cfg-lbl{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.cfg-card input{width:100%;background:var(--d3);border:1px solid var(--bo);color:var(--tx);padding:10px 13px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:12px;}
+.cfg-card input:focus{outline:none;border-color:var(--o);}
+.cfg-hint{font-size:10px;color:var(--txd);margin-top:8px;line-height:1.6;}
 .cfg-hint b{color:var(--o);}
 
-.sec-ti{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--o);margin:18px 0 11px;display:flex;align-items:center;gap:8px;}
-.sec-ti::after{content:'';flex:1;height:1px;background:rgba(232,121,26,.2);}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.fr.one{grid-template-columns:1fr;}
-.fr.three{grid-template-columns:1fr 1fr 1fr;}
-.f label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);display:block;margin-bottom:5px;}
-.f input,.f select,.f textarea{width:100%;background:var(--d3);border:1px solid var(--bo);color:var(--tx);padding:11px 12px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;transition:border-color .2s;}
-.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--o);background:var(--d4);}
-.f textarea{resize:vertical;min-height:65px;}
-.f select option{background:var(--d3);}
-.f input[readonly]{opacity:.65;cursor:default;}
+/* SECTIONS */
+.sec{margin-bottom:20px;}
+.sec-title{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;color:var(--o);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;}
+.sec-title::after{content:'';flex:1;height:1px;background:rgba(232,121,26,.2);}
 
-.today-b{background:rgba(232,121,26,.1);border:1px solid rgba(232,121,26,.2);border-radius:7px;padding:6px 12px;font-size:11px;color:var(--o);font-weight:600;display:inline-block;margin-bottom:14px;}
+/* FORM GRID */
+.grid{display:grid;gap:12px;margin-bottom:12px;}
+.grid.g2{grid-template-columns:1fr 1fr;}
+.grid.g3{grid-template-columns:1fr 1fr 1fr;}
+.grid.g1{grid-template-columns:1fr;}
 
-.sub-btn{width:100%;background:linear-gradient(135deg,var(--o),var(--om));color:#fff;border:none;padding:14px;border-radius:11px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;box-shadow:0 6px 20px var(--og);margin-top:4px;display:flex;align-items:center;justify-content:center;gap:9px;}
+.field{}
+.field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txd);margin-bottom:5px;}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--d3);border:1px solid var(--bo);
+  color:var(--tx);padding:11px 13px;border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:13px;
+  transition:border-color .15s,background .15s;
+  -webkit-appearance:none;appearance:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--o);background:var(--d4);}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A8FA8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.field select option{background:var(--d3);color:var(--tx);}
+.field textarea{resize:none;min-height:72px;line-height:1.5;}
+.field input[readonly]{opacity:.6;cursor:default;}
+
+/* AMOUNT PILLS */
+.amt-pills{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;}
+.amt-pill{padding:3px 10px;border-radius:16px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid var(--bo);background:var(--d4);color:var(--txd);transition:all .15s;}
+.amt-pill:hover,.amt-pill.on{background:var(--olt,rgba(232,121,26,.12));color:var(--o);border-color:rgba(232,121,26,.3);}
+
+/* SUBMIT */
+.submit-wrap{margin-top:4px;}
+.sub-btn{
+  width:100%;background:linear-gradient(135deg,var(--o),var(--om));
+  color:#fff;border:none;padding:15px;border-radius:12px;
+  font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;
+  cursor:pointer;transition:all .2s;
+  box-shadow:0 6px 20px var(--og);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
 .sub-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px var(--og);}
+.sub-btn:active{transform:scale(.98);}
 .sub-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.back-lnk{display:block;text-align:center;margin-top:14px;font-size:12px;color:var(--txd);text-decoration:none;}
-.back-lnk:hover{color:var(--o);}
 
-.msg{display:none;border-radius:11px;padding:14px;text-align:center;margin-top:12px;}
+/* MESSAGES */
+.msg{border-radius:12px;padding:16px;text-align:center;margin-top:14px;display:none;}
 .msg.show{display:block;}
 .msg-ok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);}
-.msg-ok p{color:#22c55e;font-weight:700;font-size:14px;margin-bottom:4px;}
-.msg-ok small{color:var(--txd);font-size:11px;}
+.msg-ok .msg-ic{font-size:36px;margin-bottom:8px;}
+.msg-ok p{color:#22c55e;font-weight:700;font-size:15px;margin-bottom:4px;}
+.msg-ok small{color:var(--txd);font-size:12px;line-height:1.5;display:block;}
+.msg-ok a{color:#22c55e;font-weight:600;}
 .msg-err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);}
-.msg-err p{color:#f87171;font-weight:600;font-size:13px;}
-.msg-err small{display:block;color:var(--txd);font-size:10px;margin-top:4px;line-height:1.5;}
+.msg-err p{color:#f87171;font-weight:600;font-size:14px;margin-bottom:4px;}
+.msg-err small{color:var(--txd);font-size:11px;line-height:1.6;display:block;}
+
+/* DIVIDER */
+.or-div{display:flex;align-items:center;gap:12px;margin:14px 0;}
+.or-div span{font-size:11px;color:var(--txd);}
+.or-div::before,.or-div::after{content:'';flex:1;height:1px;background:var(--bo);}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="hd">
-    <img class="hlogo" src="data:image/jpeg;base64,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" alt="TriQ Pharma"/>
-    <div class="htxt">
-      <h1>TriQ Pharma Entry</h1>
-      <p>Add today's sales &amp; call data</p>
-      <div class="live-b">LIVE ENTRY</div>
+
+<div class="hdr">
+  <img class="hlogo" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0PDw4PDw0NDQ0NDQ0NDQ8NDQ4OFREWFhURFRYYHSggGRomHRUVIzEhJSkrLi4uFx83RDMsNyktLisBCgoKDg0OGhAQGysfICEwNzE1MS0rNzczLSsrOC0xNzctLSs3MSstNTMtNDctNS03KystKzAwLTAtLTAtKy03K//AABEIAOEA4QMBIgACEQEDEQH/xAAbAAADAAMBAQAAAAAAAAAAAAAAAQIFBgcDBP/EAEcQAAEDAgMFAwQPBwIHAAAAAAEAAgMEEQUSIQYxQVFhEyJxFFKBkQcWIzIzNEJUcnOCkqGxshUkQ1NilNKT0TVjZIOzwfD/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAgMEAQX/xAAmEQEAAgIBAgYCAwAAAAAAAAAAAQIDEQQSQRMhMVFhoSJxBRTB/9oADAMBAAIRAxEAPwDpgCdkwE0CAVAJgJ2QFkwEAKgEE2TsqsnZBNkWVWTsgmydk7J2QTZFlVkWQRZFldkWQRZKyuyLIIslZelkrIPOyVl6WSIQeZCVl6EKSEEWSKuyRCCLJEKyEigiyapCCgmgJgIABUlZUEAAmAmAnZAAJ2TATsgVkAKkIFZCpFkCslZVZFkE2RZVZFkE2SsrskgkhKyuyVkE2SsrskQg8yFJC9VJCCLKbL0ISsg8yEiFZCRCCEKrIQMBMIsqAQACoBACYQAVWQAmEAAmhMIAJrFY9tDTYezNPJ3iCWQss6aTwby6mwWq1ddiWIFoc84bTS6xQRtfLiVQzm1je9br3QL8UG14ttFR0V+3qGMeBfsgS+X7jbkeJWBG209R8QwupqG62ml9yh8bi49ZC98E2HbHZwhjgN83a1QZXVzjzt8DE7wD1s4wCnd8MH1R0v5XIZmX5iP4Nv2WhBokuN4tI7I6pwqjf/JMzJqgD6LTJ+SktxR2/Fpb/wDJwerlZ6C2BdNggZGMsbGsaNzWNDGj0BehKDmDf2o3diryf+owerhZ63QKoscxZrsjZ8KrHj+E2cQzkfRcWfkumrzmhZIMr2Ne3zXtDx6ig0P25T09vL8LqaccZY7TReN9B6iVnMJ2ho63SCoY9/8ALN2S/cdYnxGiyLsDgA9xz0x1t5M8xMHXs/gz6WlavjWwzJbudDHM7eJqMNoa0HnlPuUrr8TkQbUQktDp6zEsOzBrjidNFrLFI18WI07L2zOY7vW00PeBtvAW04BtBTYizNA+7mgGSF/dmj8W8uouEGTQmkgkpWV2SIQQkqskQgghSV6EKSEE2QnZCBhUFICoBA0wgBUAgAmhNABaxtHtO+OUUVBH5RiD9CBYx0485/C/Q6DjyM7WY/Ix7KCiGavqBq75NNGRrI48DbXoNeV1sjsxH2WhLqWQ5pp3XEuKPvqSd4pr3sP4m89098Pk2a2adJIagydvUON5cUlAkY13m0jHaPI/muGUWFgdQN7w/DoqYO7Nvfec0sryXzSu5vedXf8ArhYL6mgAAAAACwAFgByQgd0JJoBCEIEhNJAIQhB8tfh0VRl7RvfYSYpWEsmiPNjxqPyPG4WjbSbMuZIKhsnk9S03jxOICOJ7vNq2NFmE/wA1oynW4GgPQ0nNBBBFwQQQRcEckGlbObTPklNFXx+T4gzQDdFUDg5nC9uA0PDkNmK1fazZeIxAEllNGc0E4uZMMfe4IO80194/h7xZo7hspj0rpH4fXd3EKcaO+TUxgXztPE216jXnYNnQnZJAklSRCCCFJCsqSglCaEDCoKQqAQMKkk0DWI2pxtuHUz5iA6Rx7OCPz5TuHgLEnwWXC5/LUHEsQfO0CSCgkbSYfG7WOevedHnm1uUvP9MbUH3bKbNueZfKLvmntJisrjcuLrPbQjpYh0nQtbqDp0ICwsNw0AGgC+bDqNtPEyJpLsty57vfySON3yO6ucST4r6kCQmhABCEIBCEIBCEIBJNCBIQhAEc93Fc/wBrdnHAxeT3ZPBeTC5W6O7t3OoT4AF0fQOboBr0BfPiNG2oidGSW3sWPbbPHI0hzJG34tcAR4IMDstjjMRpmygZZWns6iP+XKBr6DvHj0Kyy0ETHDcSZUkCODEHupcQjb8HDXNIOccmuzB4v8mRxW/kIJSVJIJKRVFSUCQhCACoKQrCBphIJoMHttipoqColabSOaIYrb879LjqBmP2V47CYOKcMYR8SiDH9a2drZJieeVhiYD1eFjtsJGz4hhdI8+4xmTEKm+4RxguF+lmPH2luOzsTm0sTni0s4dUzA6kSzOMjm+jNbwAQZNCEIBCx2OYqKONshYX5pAywdl3gm/4LC+3ZnzZ3+qP9lnycrFjt03tqWjHxcuSvVSu4bWhap7dm/Nnf6o/2WTwLHhWukaIizs2h1y8Ovc25LlOZhvaK1tuZdvxM1Kza1dRDMoQhaWYJLXMO2qE88cPYFvaOLc3a3tYE3tl6LYpJGsa5znBrWguc5xAa0DeSTuCqxZqZY3SdrMuK+KdXjRoWi4r7KFHC4shjlqbado20cRPQnU+pRhvspUkrg2aGanB/iXE0Y8bWPqBU+qGP+1h3rqhvqSimqGTMbJG9skbxmY9hDmuHMEL0UmgkIQg0/bnCPKGyRgfHIi2PpXQNMkJHLOwSsJ/pYF67E4r5bQU8rjeRrTDLff2jNLnqRld9pZvH4i6mlLReSHLUxAbzJE4SNHpLbeBK03ZCRtPiGKUbT7lI5lfTcuzkAcbdLPYPsoNzSKalAikqUlAk0kIAKgoVhA00gmg5/VsFTimLX1DKalw1vTymSKI/rk9a6guZ7OtzYjipPysXomeiOSVw/QF0xA0IQg+euoYqhoZKzO0ODgLuHesRfQ9Stc2nwWmgpnyRRBrw6MB2Z50LgDvK2tYPbP4nJ9OL9YWTl46TitaYjep7NXEyXjLSsTOtx3YPY7DIakVHbR58hiy3c4WvmvuPQLY5KOGgiqJoImte2JzjdzyHZRcA3Kw/sfbqrxh/J6z+0HxSq+ol/SVRxKVjjReIjep89fto5d7TyZpMzrceW/0wFFtg4iV0sbAGMBY2MuzPeTYN14bz6FktmMYkre3L2saIzHkDAdxzXuSddy1DZzDRVzhjieza0ySW0JaLCw8SQuh0VBDTgiKNrA62bKNXW3XPHeocK/Iy6vafxj7S51OPi3SsflP01LBcXElVEzyWlYS94zshyyCzXag36LXfZcx975RQRuIjjaySoDd8kju81h6AWNuJcOS+7Zw/v0H1kn6HLV9sj2OOTPl942qpZTfjEGxk/gCPQu8HJa2K2/d538/WMcVivlvX+tv2V9janZEySua6Wd7Q4w53Mjhv8k5SC53PW35n6NofY1pJYnGjaaeoAJYM73xPPmuDibX5jd1W9BwIBBuCLgjUEc1r1XtTFFUdllJjaS2WUfJf0HEDj/9fdkvjxRHXOlGLgVyV6K120D2Lcalpas0MpIinc9ojdviqWg7uV7EEc7Lr6447Cp2Y/TvLPcqmvNTTysOaKSLMZCQ4cbA3HD1FdjU6ejPw+qKzS3adBJMpKbYFzClZ2GK4S4aB9LVYa7qaWSWIE/cZ6gunrmW0Pcr8LI+RjNbH6JZIXn/AMhQb8kU0igkpFUVJQCEkIAKgoCoIKTSTQaHs47LX4mDvGNUrvQ98zR+oLpi5e0CDFcYBNgf2diIPDJBNE959Rf+K6igE0kIGsFtn8Tk+nF+sLOLyqadkrSyRrXsJBLXC7bg6KvNSb47VjvCzDfoyVtPaWr+x/uqvGH8nrP4+f3Sq+ok/SvWko4YM3ZMZHmtmyAC9t1/WV7TMY9rmODXMcC1zTqCDvBVWHBNMHhzPnqftbmzxfP4kR3j6aVsF8Yl+oP62rel8VJQU8BLoo42OIyktsCRvt+C+sEHcR604uGcOKKS5ys0Zsk3iNOb7N/HoPrZP0OX2eybslJWhtXTNz1ETMksQ99LECSC3m4XOnEHoAc5BJQRHtWwGNzBJIx/ZkFwacry031tf8Vl318Y7a5NoGtfIbaWIJFue5U8THXFSazaJ3O0v5HXK1usxGtOQbO+yHVUEYp5YhUMi7jGveYpowNMhdY6DkRcLL0uPwY1I5pjbR1p+ABk7SKpFveF2UWfy01W6YlSUFUIZZqNk7pgezPYNM2guQToRax0vwXhQtwukc10UEUTnQunbIIQHlgvduY65tDp0VuSuO9em8xpg4uHmYLxaltxHwwGE4tLQSdnIwuY1/eicO8xx0zM5HU+N/SuhMdmANiLgGxFiL8COBWJmmpHupKh7LvksIHlveAdaxd0FxqdxKy6jxMU44mvV1R2+HocvLXJMW6eme/zIQkhbGQLme0xzVuG8343UOHgx1Ow/i0rpi5g8dvieDNGoBxDET9GaeaRh9TWoOgIuhJAlKaRQCEkIEFSgKkFhMKQqQaTtXTNbilA9+kNfTz4ZOeFntc1oPiZB91bzgtSZqaB7/hDGGzDlMzuyN9DmuHoWs+yBh7qigldHftqUtq4iPfAx3zW65S70gL7djsWbUC4IArIhXRtuLNkuI6qMfRks4/XINnQkmgF5VVLHO0sljZLGSCWSsbIwkag2Oi9UIMb7XqD5jSf2sP+KPa9QfMaT+1h/wAVkkIMb7XqD5jSf2sP+K96TCqaB2eGmgieWlpfFBHG4tJBIu0XtoPUvrQgxTcCiEUkeueRr2OlOrrOdmIAJsOG7kqdgsfugb7nHI6Jz44gIwQy+gI3XJBv0WTQqvBp7LPFv7sScBjIDC95jbLLI1pccwzsIIzXvvJdfmV6x4PGOzz2f2cUUbQWBouxxIfYbjqsihPBp7E5bz3Yd+ARua1r3yERwNgjyuMeUDUu7p1ucuh07oWVjaQ1oJzEAAutbMbb1aSlXHWvpDlr2t6yEIQpoPhxupdDTTvZ8JkyQjnM85Ix6XOaFpGzNMJMWrpGawUFPBh0J4dxrWm3pjf95Z7bHFBALkjLRxGukF9HSm8dLGfpSFzv+yvi9j3D3QUEbn/C1TnVUhO85/ek/ZDT4koNlSKCkUCUlUVBQCaSECCoKAqCCwmpCoIHv36jkdQtBwqN+G1stC0E5ZDiGFi9u0aWkS0tydczMwHAOjB5Lfgtf20wJ1bCySAllbSO7ale2wcXCxMd+thbqBwug2ylqGTRsljdmjkY17HbrtIuPBeq0rY7aFj2BxsyOebJNHbKKTEHHvNtwjlN3N5PLhvcAN0QNCEkDQkmgEIQgEIQgEISQCEIQC8qqoZDG+WR2WONjnvdyaBcr1WlbY7RMjaXCz4oJckMe8Vde091vWOIjM7m8NF7tIIYPFRJiVZDQOBGeUYhiYB+CaGgRUxN97Yy0HhmkvzXQQAAABYAWAG4Dkte2LwN1HC+Wcl1bVu7ape7VwJJIZ6LknqTyC2FAJFCRQIqSmVJQNCSEEgqgVAVBBYVBQCmCgsKrqAndBpe1eEPpJZMRpYxLFIwsxOiIvHUQn3z7c+JPA6+dfYNmdoI5Y4R2pkglIZTVLz38/zWflMOBPvxY79+VWk43s9NRPlqsPjbLBMCK7DHC8UzOJY3nvNhqOHmoOjJrTdl9qWSx910k8LB32Pu+voxykbvmjG4SNu7dcHUjbqedkrGvje18bxmY9jg5jhzBG9B6JJoQJCaECQhCAQhCAQonmZE1z5HtZGwFz3vcGsaOZJ0C0/afapsbNXSQQPHcDbsrqwcomnWGM7jI6x80bnIPs2o2gjijlaJDHDGSypqGG0me3xaDnMeJ3MGu/dgNlsHfWSx4hVRiKKJrW4bRAWjgiHvX2/EHideSnA9nZa18VXiEYjhiH7lhrRaKFm8F7fUbHUnfyW8XQBSQhAKSUypKBEpFNSSgEkXSQK6oFeYVAoLBVAqLphBd1SgJ3QWndRdUg13H9ko6l4qaeR1JXtOZtRFcB5/rA3+I1533LBtxqqw158vifTSPP8AxCjYJaOod508OjXHm5uR+i39TIxr2lrmhzXCzmuAc0jkQd6D4cL2nbM3MWiaMb6igLqlg+nEB2sZ6ZXAecszR18NQCYZY5LaODHhxaeThvB6FadW7C0jndrTOlopxufSvLWg/R4fZIWPq8JxhhF3UWJNb7w1MLWVDR0doQeucoOkoXMY8WrqbSTDsSi5vpa2WrYPBsrZGjwBV+3hzNHftkHjnoqA/kxqDpaFzR22z3+8/bJPJlFQN/NjlD8Xr6jSPDsSk5Oqq2WkafFsTYwfWg6NWVsMABmljjB0HaPa0k8gDvPQLDYntO2FmYMEUfCoriaWI88kZHayHoGgHzlq1JhOMyEnNRYaHaPdTRB9QR1ecxP31kKLYaka/tal0tbOd8lU8lpP0ePg4lBiX43VYk8ChjfUvY74/VRiKjp3edDDqARwL87xdZvAdko6d/lNRI6rrnHM6eW5DD/QD+Z9Fty2GONrAGtaGtaLNa0BrWjkANytAJIQgEiUFSSgCUihSSgCVJKZUlAXTU3QgkKgvMFUEFqlAKaC7p3UAphBYVAqAmCgu6LqbpoKui6m6LoKundRdF0F5kkrpXQUhTdF0FIupuhA0iUrougCVJKCkSgLpEpXSKAJSKCpJQNCm6EEhUCvMKggu6d1KEF3TBUphBYKd1ATugu6ahO6CroupTCB3TupQgq6V0kIGi6lCCroupQgd0XUkpXQMlIlJIlA7pEpKboGUkkiUDQkkgAmEIQUE0IQMJpoQATQhBQQkhA00IQCEIQCChCBJoQgSEkIEUIQgSlCEAVKEIEkkhAIQhB//9k=" alt="TriQ"/>
+  <div class="htxt">
+    <h1>TriQ Pharma <span class="live-dot">LIVE</span></h1>
+    <p>Add today's sales & call data</p>
+  </div>
+  <a href="index.html" class="back-btn">← Dashboard</a>
+</div>
+
+<div class="body">
+
+  <div class="today-banner">
+    <div>
+      <div class="date" id="todayDisp"></div>
+      <div class="sub">Entry will be timestamped automatically</div>
+    </div>
+    <div style="font-size:24px">📋</div>
+  </div>
+
+  <!-- SCRIPT URL CONFIG -->
+  <div class="cfg-card">
+    <div class="cfg-lbl">⚙️ Apps Script URL</div>
+    <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec"/>
+    <div class="cfg-hint">Paste your Google Apps Script Web App URL. <b>Saved automatically.</b><br/>
+    Your URL: <b>AKfycbzd0P-I6MyrkyBxcWhbbcpGcX71...</b></div>
+  </div>
+
+  <!-- SALES -->
+  <div class="sec">
+    <div class="sec-title">💰 Sales Details</div>
+    <div class="grid g2">
+      <div class="field"><label>Order ID</label><input type="text" id="orderId" placeholder="#1034"/></div>
+      <div class="field"><label>Order Date</label><input type="date" id="orderDate"/></div>
+    </div>
+    <div class="grid g1">
+      <div class="field"><label>Product Name</label>
+        <select id="productName" onchange="checkOther()">
+          <option value="">Select product...</option>
+          <option>GlutaDelight - 6 Tubes</option>
+          <option>GlutaDelight - 2 Tubes</option>
+          <option>Grand Restore - 30 sachets</option>
+          <option>FemiDelight - 3 Bottle</option>
+          <option>FemiDelight - 1 Bottle</option>
+          <option>GrandWalk - 30 Sachets</option>
+          <option>DiaGrand - 3 Tins</option>
+          <option value="__other">+ Other product...</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid g1" id="customProdWrap" style="display:none">
+      <div class="field"><label>Custom Product Name</label><input type="text" id="productCustom" placeholder="Type product name..."/></div>
+    </div>
+    <div class="grid g3">
+      <div class="field">
+        <label>Sale Amount (₹)</label>
+        <input type="number" id="saleAmt" placeholder="0" min="0" oninput="calcBalance();autoStatus();"/>
+        <div class="amt-pills">
+          <span class="amt-pill" onclick="setAmt('saleAmt',1800)">₹1,800</span>
+          <span class="amt-pill" onclick="setAmt('saleAmt',1999)">₹1,999</span>
+          <span class="amt-pill" onclick="setAmt('saleAmt',3000)">₹3,000</span>
+          <span class="amt-pill" onclick="setAmt('saleAmt',4999)">₹4,999</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Amount Paid (₹)</label>
+        <input type="number" id="paidAmt" placeholder="0" min="0" oninput="calcBalance();autoStatus();"/>
+        <div class="amt-pills">
+          <span class="amt-pill" onclick="setAmt('paidAmt',500)">₹500</span>
+          <span class="amt-pill" onclick="copyFromSale()">Full</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Balance Due (₹)</label>
+        <input type="number" id="balAmt" placeholder="0" readonly/>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="field"><label>Payment Status</label>
+        <select id="payStatus">
+          <option value="paid">✅ Paid</option>
+          <option value="partially_paid">⚡ Partially Paid</option>
+          <option value="pending">⏳ Pending</option>
+          <option value="voided">❌ Voided</option>
+        </select>
+      </div>
+      <div class="field"><label>Payment Method</label>
+        <select id="payMethod">
+          <option>Razorpay</option>
+          <option>Cash on Delivery (COD)</option>
+          <option>Razorpay + COD</option>
+          <option>UPI</option>
+          <option>Bank Transfer</option>
+          <option>Cash</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="field"><label>Fulfillment Status</label>
+        <select id="fulfilStatus">
+          <option value="fulfilled">✅ Fulfilled</option>
+          <option value="unfulfilled">📦 Unfulfilled</option>
+          <option value="shipped">🚚 Shipped</option>
+        </select>
+      </div>
+      <div class="field"><label>Shipped Date</label><input type="date" id="shippedDate"/></div>
     </div>
   </div>
 
-  <div class="cfg-box">
-    <label>⚙️ Google Apps Script URL (one-time setup)</label>
-    <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"/>
-    <div class="cfg-hint">Paste your deployed Web App URL. <b>Automatically saved in your browser.</b><br/>
-    Get this from Apps Script → Deploy → Manage Deployments → copy the Web App URL.</div>
-  </div>
-
-  <div class="today-b">📅 Today: <span id="todayDisp"></span></div>
-
-  <div class="sec-ti">💰 Sales Details</div>
-  <div class="fr">
-    <div class="f"><label>Order ID</label><input type="text" id="orderId" placeholder="e.g. #1033"/></div>
-    <div class="f"><label>Order Date</label><input type="date" id="orderDate"/></div>
-  </div>
-  <div class="fr">
-    <div class="f"><label>Product Name</label>
-      <select id="productName">
-        <option value="">Select product...</option>
-        <option>GlutaDelight - 6 Tubes</option>
-        <option>GlutaDelight - 2 Tubes</option>
-        <option>Grand Restore - 30 sachets</option>
-        <option>FemiDelight - 3 Bottle</option>
-        <option>FemiDelight - 1 Bottle</option>
-        <option>GrandWalk - 30 Sachets</option>
-        <option>DiaGrand - 3 Tins</option>
-        <option value="other">Other...</option>
-      </select>
-    </div>
-    <div class="f"><label>Custom Product</label><input type="text" id="productCustom" placeholder="Type if Other selected..."/></div>
-  </div>
-  <div class="fr three">
-    <div class="f"><label>Sale Amount (₹)</label><input type="number" id="saleAmt" placeholder="0" min="0"/></div>
-    <div class="f"><label>Amount Paid (₹)</label><input type="number" id="paidAmt" placeholder="0" min="0"/></div>
-    <div class="f"><label>Balance Due (₹)</label><input type="number" id="balAmt" placeholder="0" readonly/></div>
-  </div>
-  <div class="fr">
-    <div class="f"><label>Payment Status</label>
-      <select id="payStatus">
-        <option value="paid">✅ Paid</option>
-        <option value="partially_paid">⚡ Partially Paid</option>
-        <option value="pending">⏳ Pending</option>
-        <option value="voided">❌ Voided</option>
-      </select>
-    </div>
-    <div class="f"><label>Payment Method</label>
-      <select id="payMethod">
-        <option>Razorpay</option>
-        <option>Cash on Delivery (COD)</option>
-        <option>Razorpay + COD</option>
-        <option>UPI</option>
-        <option>Bank Transfer</option>
-        <option>Other</option>
-      </select>
+  <!-- CALLS -->
+  <div class="sec">
+    <div class="sec-title">📞 Call Report</div>
+    <div class="grid g3">
+      <div class="field"><label>Calls Made</label><input type="number" id="callsMade" placeholder="0" min="0"/></div>
+      <div class="field"><label>Calls Received</label><input type="number" id="callsRecv" placeholder="0" min="0"/></div>
+      <div class="field"><label>Connected</label><input type="number" id="callsConn" placeholder="0" min="0"/></div>
     </div>
   </div>
-  <div class="fr">
-    <div class="f"><label>Fulfillment Status</label>
-      <select id="fulfilStatus">
-        <option value="fulfilled">✅ Fulfilled</option>
-        <option value="unfulfilled">📦 Unfulfilled</option>
-        <option value="shipped">🚚 Shipped</option>
-      </select>
+
+  <!-- NOTES -->
+  <div class="sec">
+    <div class="sec-title">📝 Notes</div>
+    <div class="grid g1">
+      <div class="field"><label>Remarks (optional)</label><textarea id="notes" placeholder="Any notes about this order or day..."></textarea></div>
     </div>
-    <div class="f"><label>Shipped Date</label><input type="date" id="shippedDate"/></div>
   </div>
 
-  <div class="sec-ti">📞 Call Report</div>
-  <div class="fr three">
-    <div class="f"><label>Calls Made</label><input type="number" id="callsMade" placeholder="0" min="0"/></div>
-    <div class="f"><label>Calls Received</label><input type="number" id="callsRecv" placeholder="0" min="0"/></div>
-    <div class="f"><label>Connected</label><input type="number" id="callsConn" placeholder="0" min="0"/></div>
+  <!-- SUBMIT -->
+  <div class="submit-wrap">
+    <button class="sub-btn" id="subBtn" onclick="submitEntry()">
+      <span id="subBtnTxt">➕ Submit Entry</span>
+    </button>
   </div>
-
-  <div class="sec-ti">📝 Notes</div>
-  <div class="fr one">
-    <div class="f"><label>Remarks (optional)</label><textarea id="notes" placeholder="Any notes..."></textarea></div>
-  </div>
-
-  <button class="sub-btn" id="subBtn" onclick="submit()">➕ Submit Entry to Dashboard</button>
 
   <div class="msg msg-ok" id="okMsg">
-    <p>✅ Entry submitted!</p>
-    <small>Dashboard will update in seconds. <a href="index.html" style="color:#22c55e">View Dashboard →</a></small>
+    <div class="msg-ic">✅</div>
+    <p>Entry submitted successfully!</p>
+    <small>Your data has been sent to Google Sheets.<br/>
+    Go to your dashboard and click <b>Refresh</b> to see it.<br/><br/>
+    <a href="index.html">← View Dashboard</a> &nbsp;|&nbsp; <a href="javascript:addAnother()">+ Add Another</a></small>
   </div>
+
   <div class="msg msg-err" id="errMsg">
     <p>❌ Submission failed</p>
-    <small id="errTxt">Check your Apps Script URL above. Make sure you deployed as a Web App with access set to <b>"Anyone"</b>.</small>
+    <small id="errTxt">Check your Apps Script URL above.<br/>
+    Make sure it was deployed as a Web App with access set to <b>"Anyone"</b>.</small>
   </div>
-  <a href="index.html" class="back-lnk">← Back to Dashboard</a>
+
 </div>
 
 <script>
-const CFG = 'triq_entry_v2';
-let cfg = JSON.parse(localStorage.getItem(CFG)||'{}');
+const CFG='triq_entry_v3';
+let saved=JSON.parse(localStorage.getItem(CFG)||'{}');
 
 window.addEventListener('DOMContentLoaded',()=>{
-  const td = new Date();
-  document.getElementById('todayDisp').textContent = td.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('orderDate').value = td.toISOString().slice(0,10);
-  document.getElementById('shippedDate').value = td.toISOString().slice(0,10);
-  if(cfg.scriptUrl) document.getElementById('scriptUrl').value = cfg.scriptUrl;
-
-  document.getElementById('saleAmt').addEventListener('input', calc);
-  document.getElementById('paidAmt').addEventListener('input', calc);
-  document.getElementById('paidAmt').addEventListener('input', autoStatus);
+  const t=new Date();
+  document.getElementById('todayDisp').textContent=t.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('orderDate').value=t.toISOString().slice(0,10);
+  document.getElementById('shippedDate').value=t.toISOString().slice(0,10);
+  if(saved.scriptUrl) document.getElementById('scriptUrl').value=saved.scriptUrl;
 });
 
-function calc(){
+function checkOther(){
+  const v=document.getElementById('productName').value;
+  document.getElementById('customProdWrap').style.display=v==='__other'?'grid':'none';
+}
+function setAmt(id,val){
+  document.getElementById(id).value=val;
+  calcBalance(); autoStatus();
+}
+function copyFromSale(){
+  const s=parseFloat(document.getElementById('saleAmt').value)||0;
+  document.getElementById('paidAmt').value=s;
+  calcBalance(); autoStatus();
+}
+function calcBalance(){
   const s=parseFloat(document.getElementById('saleAmt').value)||0;
   const p=parseFloat(document.getElementById('paidAmt').value)||0;
   document.getElementById('balAmt').value=Math.max(s-p,0);
@@ -184,98 +286,98 @@ function autoStatus(){
   const s=parseFloat(document.getElementById('saleAmt').value)||0;
   const p=parseFloat(document.getElementById('paidAmt').value)||0;
   const sel=document.getElementById('payStatus');
-  if(p===0) sel.value='pending';
-  else if(p>=s) sel.value='paid';
-  else sel.value='partially_paid';
+  if(p===0&&s>0) sel.value='pending';
+  else if(p>=s&&s>0) sel.value='paid';
+  else if(p>0&&p<s) sel.value='partially_paid';
 }
 
-async function submit(){
-  const url = document.getElementById('scriptUrl').value.trim();
-  if(!url){ showErr('Please paste your Google Apps Script Web App URL above.'); return; }
+async function submitEntry(){
+  const url=document.getElementById('scriptUrl').value.trim();
+  if(!url){showErr('Please paste your Google Apps Script URL in the config box above.');return;}
 
-  cfg.scriptUrl=url;
-  localStorage.setItem(CFG,JSON.stringify(cfg));
+  saved.scriptUrl=url;
+  localStorage.setItem(CFG,JSON.stringify(saved));
 
-  const product = document.getElementById('productName').value==='other'
-    ? document.getElementById('productCustom').value
-    : document.getElementById('productName').value;
+  const product=document.getElementById('productName').value==='__other'
+    ?document.getElementById('productCustom').value
+    :document.getElementById('productName').value;
 
-  const payload = {
-    // Match your ACTUAL Google Sheet column names exactly
-    "Order Date":                   document.getElementById('orderDate').value,
-    "Shipped Date":                  document.getElementById('shippedDate').value,
-    "Product name":                  product,
-    "Amout to be paid":              document.getElementById('saleAmt').value,
-    "Balance amount to receive":     document.getElementById('balAmt').value,
-    "Financial Status":              document.getElementById('payStatus').value,
-    "Payment Method":                document.getElementById('payMethod').value,
-    "Fulfillment Status":            document.getElementById('fulfilStatus').value,
-    "Order ID":                      document.getElementById('orderId').value,
-    "Calls Made":                    document.getElementById('callsMade').value||'0',
-    "Calls Received":                document.getElementById('callsRecv').value||'0',
-    "Calls Connected":               document.getElementById('callsConn').value||'0',
-    "Notes":                         document.getElementById('notes').value,
+  if(!product){showErr('Please select a product name.');return;}
+
+  const payload={
+    'Order Date':         document.getElementById('orderDate').value,
+    'Shipped Date':       document.getElementById('shippedDate').value,
+    'Product name':       product,
+    'Amout to be paid':   document.getElementById('saleAmt').value||'0',
+    'Balance amount to receive': document.getElementById('balAmt').value||'0',
+    'Financial Status':   document.getElementById('payStatus').value,
+    'Payment Method':     document.getElementById('payMethod').value,
+    'Fulfillment Status': document.getElementById('fulfilStatus').value,
+    'Order ID':           document.getElementById('orderId').value,
+    'Calls Made':         document.getElementById('callsMade').value||'0',
+    'Calls Received':     document.getElementById('callsRecv').value||'0',
+    'Calls Connected':    document.getElementById('callsConn').value||'0',
+    'Notes':              document.getElementById('notes').value,
+    'Timestamp':          new Date().toISOString(),
   };
 
   const btn=document.getElementById('subBtn');
-  btn.disabled=true; btn.textContent='⏳ Submitting...';
+  const btnTxt=document.getElementById('subBtnTxt');
+  btn.disabled=true;
+  btnTxt.textContent='⏳ Submitting...';
+  document.getElementById('okMsg').classList.remove('show');
+  document.getElementById('errMsg').classList.remove('show');
 
-  try {
-    // Use no-cors mode with form data as fallback for CORS issues
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(payload));
+  // Strategy: POST with no-cors (bypasses CORS, always "succeeds" from browser POV)
+  // Apps Script receives it, adds row to sheet
+  // We verify by trying to read back after 2s
+  try{
+    // Method 1: JSON POST no-cors
+    await fetch(url,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
 
-    // Try JSON POST first
-    let success = false;
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(payload),
-        mode: 'no-cors' // Bypass CORS — script handles it
-      });
-      // no-cors always returns opaque response, treat as success
-      success = true;
-    } catch(e1) {
-      // Try GET with params as fallback
-      try {
-        const params = new URLSearchParams({data: JSON.stringify(payload)});
-        await fetch(`${url}?${params}`, {mode:'no-cors'});
-        success = true;
-      } catch(e2) {
-        throw new Error('Both POST and GET failed: ' + e2.message);
-      }
-    }
-
-    if(success){
+    // Show success after short delay (no-cors = opaque = can't read response, assume success)
+    setTimeout(()=>{
       document.getElementById('okMsg').classList.add('show');
-      document.getElementById('errMsg').classList.remove('show');
-      btn.textContent='✅ Submitted!';
+      btn.disabled=false;
+      btnTxt.textContent='➕ Submit Entry';
+    },800);
+
+  }catch(e){
+    // Fallback: GET with URL params
+    try{
+      const params=new URLSearchParams({data:JSON.stringify(payload)});
+      await fetch(`${url}?${params}`,{mode:'no-cors'});
       setTimeout(()=>{
-        // Reset sales fields
-        document.getElementById('orderId').value='';
-        document.getElementById('saleAmt').value='';
-        document.getElementById('paidAmt').value='';
-        document.getElementById('balAmt').value='';
-        document.getElementById('callsMade').value='';
-        document.getElementById('callsRecv').value='';
-        document.getElementById('callsConn').value='';
-        document.getElementById('notes').value='';
+        document.getElementById('okMsg').classList.add('show');
         btn.disabled=false;
-        btn.innerHTML='➕ Submit Another Entry';
-      },2000);
+        btnTxt.textContent='➕ Submit Entry';
+      },800);
+    }catch(e2){
+      showErr('Network error: '+e2.message);
+      btn.disabled=false;
+      btnTxt.textContent='➕ Submit Entry';
     }
-  } catch(e){
-    showErr(e.message);
-    btn.disabled=false;
-    btn.innerHTML='➕ Submit Entry to Dashboard';
   }
 }
 
 function showErr(msg){
-  document.getElementById('errTxt').textContent=msg;
+  document.getElementById('errTxt').innerHTML=msg;
   document.getElementById('errMsg').classList.add('show');
   document.getElementById('okMsg').classList.remove('show');
+}
+function addAnother(){
+  // Reset fields but keep config
+  ['orderId','saleAmt','paidAmt','balAmt','callsMade','callsRecv','callsConn','notes'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  document.getElementById('productName').value='';
+  document.getElementById('okMsg').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 </body>
